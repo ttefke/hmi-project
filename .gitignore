@@ -1,2 +1,8 @@
 # LLM Logs
 llm-server/hss_server/logs/
+
+# PYC files
+llm-server/hss_server/__pycache__
+llm-server/hss_server/db/__pycache__
+llm-server/hss_server/include/__pycache__
+llm-server/hss_server/matcher/__pycache__

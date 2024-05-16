@@ -18,3 +18,16 @@ def get_learning_obj_en(db_file):
     conn.close()
 
     return learning_obj
+
+def get_course_by_instructor(db_file, name):
+    conn = sqlite3.connect(db_file)
+    cursor = conn.cursor()
+
+    statement = "SELECT * FROM zqm_module_en WHERE instructor LIKE \'%{0}%\'".format(name)
+    cursor.execute(statement)
+    records = cursor.fetchall()
+    instructor = []
+    for row in records:
+        instructor.append(row[1])
+    conn.close()
+    return instructor
