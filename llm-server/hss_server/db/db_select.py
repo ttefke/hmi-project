@@ -23,8 +23,7 @@ def get_course_by_instructor(db_file, name):
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
 
-    statement = "SELECT * FROM zqm_module_en WHERE instructor LIKE \'%{0}%\'".format(name)
-    cursor.execute(statement)
+    cursor.execute("SELECT * FROM zqm_module_en WHERE instructor LIKE ?", ("%" + name + "%",))
     records = cursor.fetchall()
     instructor = []
     for row in records:
