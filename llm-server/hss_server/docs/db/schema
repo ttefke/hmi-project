@@ -1,0 +1,39 @@
+CREATE TABLE IF NOT EXISTS "zqm_module_en" (
+	"file_loc"	TEXT,
+	"title"	TEXT, 
+	"instructor"	TEXT, 
+	"learning_obj"	TEXT, 
+	"course_contents"	TEXT, 
+	"teaching-methods"	TEXT, 
+	"prerequisites"	TEXT, 
+	"readings"	TEXT, 
+	"applicability"	TEXT, 
+	"workload"	TEXT, 
+	"credits"	TEXT, 
+	"evaluation"	TEXT, 
+	"time" 	TEXT, 
+	"frequency"	TEXT, 
+	"duration"	TEXT, 
+	"course_type"	TEXT, 
+	"remarks" 	TEXT
+);
+CREATE TABLE zqm_module_de (
+    file_loc           TEXT,
+    title              TEXT,
+    instructor         TEXT,
+    learning_obj       TEXT,
+    course_contents    TEXT,
+    [teaching-methods] TEXT,
+    prerequisites      TEXT,
+    readings           TEXT,
+    applicability      TEXT,
+    workload           TEXT,
+    credits            TEXT,
+    evaluation         TEXT,
+    time               TEXT,
+    frequency          TEXT,
+    duration           TEXT,
+    course_type        TEXT,
+    remarks            TEXT
+);
+
