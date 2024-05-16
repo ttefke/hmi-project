@@ -1,0 +1,36 @@
+# HMI Project 2024, Tobias Tefke
+services:
+  # Reverse proxy
+  reverse-proxy:
+    image: traefik:v2.11
+    restart: ${RESTART_POLICY}
+    command:
+      # Allow web debug page 
+      - --api.insecure=true
+      - --log.level=${LOG_LEVEL}
+      - --providers.docker=true
+      - --providers.docker.exposedByDefault=false
+      - --providers.providersThrottleDuration=10s
+      # Entrypoints
+      - --entryPoints.web.address=:80
+    ports:
+      # Web interface port
+      - "${HTTP_PORT}:80"
+      # Debug API
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      
+  # Server providing the LLM (/vectorise API)
+  llm:
+    build: llm-server
+    restart: ${RESTART_POLICY}
+    volumes:
+      - "./llm-server/hss_server:/server"
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.strip-llm-prefix.stripprefix.prefixes: "/llm"
+      traefik.http.routers.llm.rule: "PathPrefix(`/llm`)"
+      traefik.http.routers.llm.middlewares: "strip-llm-prefix@docker"
+      traefik.http.routers.llm.entryPoints: "web"
+      traefik.http.services.llm.loadbalancer.server.port: "3000"
