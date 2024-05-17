@@ -6,3 +6,10 @@ llm-server/hss_server/__pycache__
 llm-server/hss_server/db/__pycache__
 llm-server/hss_server/include/__pycache__
 llm-server/hss_server/matcher/__pycache__
+
+# PDFExtract intermediates
+PDFExtract/build
+PDFExtract/.gradle
+PDFExtract/gradle-app.setting
+PDFExtract/.gradletasknamecache
+PDFExtract/.idea
