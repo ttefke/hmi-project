@@ -92,6 +92,13 @@ public class TextMining {
                     continue;
                 }
 
+                line = line.replace("•", "");
+                line = line.replace("'", "''");
+                line = line.replace("”", "\"");
+                line = line.replace("“", "\"");
+                line = line.replace("®", "");
+                line = line.replace("…", "...");
+
                 // new module
                 if ((line.startsWith(MODULE_NAME_1)) || (line.startsWith(MODULE_NAME_2))) {
                     currentProperty = ModuleProperties.ModuleProperty.NAME;
