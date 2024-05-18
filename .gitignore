@@ -13,3 +13,8 @@ PDFExtract/.gradle
 PDFExtract/gradle-app.setting
 PDFExtract/.gradletasknamecache
 PDFExtract/.idea
+
+# Compiled documentation
+*.pdf
+*.backup
+!llm-server/hss_server/docs/readme/README.pdf
