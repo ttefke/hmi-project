@@ -39,7 +39,7 @@ def get_course_by_instructor(db_file, name):
     records = cursor.fetchall()
     instructor = []
     for row in records:
-        instructor.append(row[1])
+        instructor.append(row)
     conn.close()
     return instructor
 
@@ -55,7 +55,7 @@ def get_course_by_area(db_file, elective):
     records = cursor.fetchall()
     courses = []
     for row in records:
-        courses.append(row[1])
+        courses.append(row)
     conn.close()
     return courses
 
@@ -75,6 +75,6 @@ def get_course_by_term(db_file, term):
     records = cursor.fetchall()
     courses = []
     for row in records:
-        courses.append(row[1])
+        courses.append(row)
     conn.close()
     return courses
