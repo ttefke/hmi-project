@@ -8,5 +8,9 @@ curl --request GET \
 curl --request GET \
 --url 'http://127.0.0.1:3000/course_by_instructor/?=' \
 --header 'Content-Type: application/json' \
---data '{"instructor": "Heinemann"}'
+--data '{"instructor": "Chantelau"}'
 
+curl --request GET \
+--url 'http://127.0.0.1:3000/course_by_title/?=' \
+--header 'Content-Type: application/json' \
+--data '{"intitle": "software"}'

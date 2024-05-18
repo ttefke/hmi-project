@@ -19,6 +19,18 @@ def get_learning_obj_en(db_file):
 
     return learning_obj
 
+def get_course_by_title(db_file, title):
+    conn = sqlite3.connect(db_file)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM acs_modules WHERE title LIKE ?", ("%" + title +  "%",))
+    records = cursor.fetchall()
+    courses = []
+    for row in records:
+        courses.append(row)
+    conn.close()
+    return courses
+
 def get_course_by_instructor(db_file, name):
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
