@@ -5,7 +5,7 @@ from quart_cors import *
 from quart import Quart, request, jsonify
 from pyfiglet import Figlet
 from matcher.sbert import vectorise_text
-from matcher.query import list_course_by_title, list_course_by_instructor, list_course_by_area
+from matcher.query import list_course_by_title, list_course_by_instructor, list_course_by_area, list_course_by_term
 
 logging.getLogger('asyncio').setLevel(logging.ERROR)  # remove asyncio logging
 # --------------------------------------------------------
@@ -69,6 +69,16 @@ async def course_by_area():
     if request.is_json:
         data_json = await request.get_json()
         resp = list_course_by_area(ctx, data_json)
+    else:
+        resp = jsonify('{Well formed JSON is required, please check request}')
+        logger.debug('{}'.format(resp))
+    return resp
+    
+@app.route('/course_by_term/', methods=['GET'])    
+async def course_by_term():
+    if request.is_json:
+        data_json = await request.get_json()
+        resp = list_course_by_term(ctx, data_json)
     else:
         resp = jsonify('{Well formed JSON is required, please check request}')
         logger.debug('{}'.format(resp))

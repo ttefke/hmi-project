@@ -58,3 +58,23 @@ def get_course_by_area(db_file, elective):
         courses.append(row[1])
     conn.close()
     return courses
+
+def get_course_by_term(db_file, term):
+    conn = sqlite3.connect(db_file)
+    cursor = conn.cursor()
+
+    if "1" in term:
+        cursor.execute("SELECT * FROM acs_modules WHERE time LIKE \'%1%\'")
+    elif "2" in term or "summer" in term:
+        cursor.execute("SELECT * FROM acs_modules WHERE time LIKE \'%2%\'")
+    elif "3" in term:
+        cursor.execute("SELECT * FROM acs_modules WHERE time LIKE \'%3%\'")
+    else: # winter
+        cursor.execute("SELECT * FROM acs_modules WHERE time LIKE \'%1%\' OR time LIKE \'%3%\'")
+
+    records = cursor.fetchall()
+    courses = []
+    for row in records:
+        courses.append(row[1])
+    conn.close()
+    return courses

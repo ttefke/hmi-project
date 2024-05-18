@@ -19,3 +19,8 @@ curl --request GET \
 --url 'http://127.0.0.1:3000/course_by_area/?=' \
 --header 'Content-Type: application/json' \
 --data '{"elective": true}'
+
+curl --request GET \
+--url 'http://127.0.0.1:3000/course_by_term/?=' \
+--header 'Content-Type: application/json' \
+--data '{"term": "summer"}'
