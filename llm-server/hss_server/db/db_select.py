@@ -42,3 +42,19 @@ def get_course_by_instructor(db_file, name):
         instructor.append(row[1])
     conn.close()
     return instructor
+
+def get_course_by_area(db_file, elective):
+    conn = sqlite3.connect(db_file)
+    cursor = conn.cursor()
+
+    if elective:
+        cursor.execute("SELECT * FROM acs_modules WHERE course_type LIKE \'%elective%\'")
+    else:
+        cursor.execute("SELECT * FROM acs_modules WHERE course_type LIKE \'%obligatory%\'")
+
+    records = cursor.fetchall()
+    courses = []
+    for row in records:
+        courses.append(row[1])
+    conn.close()
+    return courses

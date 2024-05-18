@@ -14,3 +14,8 @@ curl --request GET \
 --url 'http://127.0.0.1:3000/course_by_title/?=' \
 --header 'Content-Type: application/json' \
 --data '{"intitle": "software"}'
+
+curl --request GET \
+--url 'http://127.0.0.1:3000/course_by_area/?=' \
+--header 'Content-Type: application/json' \
+--data '{"elective": true}'

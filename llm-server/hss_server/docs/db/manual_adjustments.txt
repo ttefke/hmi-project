@@ -1,0 +1,18 @@
+UPDATE acs_modules SET course_type='obligatory' WHERE title LIKE '%Agile Software Development%';
+UPDATE acs_modules SET course_type='obligatory' WHERE title LIKE '%Computer Graphics 1%';
+UPDATE acs_modules SET course_type='obligatory' WHERE title LIKE '%Computational Intelligence%';
+UPDATE acs_modules SET course_type='obligatory' WHERE title LIKE '%Distributed Systems%';
+UPDATE acs_modules SET course_type='obligatory' WHERE title = 'IT Security';
+UPDATE acs_modules SET course_type='obligatory' WHERE title LIKE '%Mobile Systems%';
+UPDATE acs_modules SET course_type='obligatory' WHERE title LIKE '%Signals and Systems%';
+UPDATE acs_modules SET course_type='obligatory' WHERE title LIKE '%Web Applications%';
+
+UPDATE acs_modules SET course_type='elective' WHERE title LIKE '%Service-Oriented Networks%';
+UPDATE acs_modules SET course_type='elective' WHERE title LIKE '%%IT-Security (adv. chapters)';
+UPDATE acs_modules SET course_type='elective' WHERE title LIKE '%Distributed Systems Advanced Chapters%';
+UPDATE acs_modules SET course_type='elective' WHERE title LIKE '%Semantic Technologies in Distributed Systems%';
+UPDATE acs_modules SET course_type='elective' WHERE title LIKE '%Software Quality%';
+UPDATE acs_modules SET course_type='elective' WHERE title LIKE '%Text Mining and Search%';
+UPDATE acs_modules SET course_type='elective' WHERE title LIKE '%eBusiness%';
+UPDATE acs_modules SET course_type='elective' WHERE title LIKE '%Human-Computer Interaction%';
+UPDATE acs_modules SET course_type='elective' WHERE title LIKE '%Image Processing%';
