@@ -1,5 +1,5 @@
 import sqlite3
-
+from quart import jsonify
 
 def get_learning_obj_en(db_file):
     """
@@ -20,6 +20,9 @@ def get_learning_obj_en(db_file):
     return learning_obj
 
 def get_course_by_title(db_file, title):
+    if not isinstance(title, str):
+        return jsonify('{Course title must be string}')
+    
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
 
@@ -32,6 +35,9 @@ def get_course_by_title(db_file, title):
     return courses
 
 def get_course_by_instructor(db_file, name):
+    if not isinstance(name, str):
+        return jsonify('{Instructor name must be string}')
+    
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
 
@@ -44,6 +50,9 @@ def get_course_by_instructor(db_file, name):
     return instructor
 
 def get_course_by_area(db_file, elective):
+    if not isinstance(elective, bool):
+        return jsonify('{Course type must be boolean}')
+    
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
 
@@ -60,6 +69,9 @@ def get_course_by_area(db_file, elective):
     return courses
 
 def get_course_by_term(db_file, term):
+    if not isinstance(term, str):
+        return jsonify('{Course term must be string}')
+    
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
 
