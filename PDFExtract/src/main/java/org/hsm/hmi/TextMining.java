@@ -1,5 +1,7 @@
 package org.hsm.hmi;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -137,6 +139,16 @@ public class TextMining {
                         // set module name
                         if ((line.startsWith(MODULE_NAME_1)) || (line.startsWith(MODULE_NAME_2))) {
                             if (!currentModule.getName().isBlank()) {
+                                // remove table
+                                if (currentModule.getTargets().contains("Content Know")) {
+                                    currentModule.setTargets(StringUtils.substringBefore(currentModule.getTargets(), "Content Know"));
+                                }
+                                if (currentModule.getTargets().contains("Topics Know")) {
+                                    currentModule.setTargets(StringUtils.substringBefore(currentModule.getTargets(), "Topics Know"));
+                                }
+                                if (currentModule.getTargets().contains("Contents Know")) {
+                                    currentModule.setTargets(StringUtils.substringBefore(currentModule.getTargets(), "Contents Know"));
+                                }
                                 modulesAsStringModels.add(currentModule);
                             }
                             currentModule = new ModuleStringModel();
