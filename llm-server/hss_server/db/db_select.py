@@ -9,7 +9,7 @@ def get_learning_obj_en(db_file):
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
 
-    statement = 'SELECT learning_obj FROM zqm_module_en'
+    statement = 'SELECT learning_obj FROM acs_modules'
     cursor.execute(statement)
     records = cursor.fetchall()
     learning_obj = []
@@ -23,7 +23,7 @@ def get_course_by_instructor(db_file, name):
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM zqm_module_en WHERE instructor LIKE ?", ("%" + name + "%",))
+    cursor.execute("SELECT * FROM acs_modules WHERE instructor LIKE ?", ("%" + name + "%",))
     records = cursor.fetchall()
     instructor = []
     for row in records:
