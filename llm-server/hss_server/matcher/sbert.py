@@ -1,5 +1,5 @@
 from db import db_select
-
+from quart import jsonify
 
 def vectorise_text(ctx, json_payload):
     """
@@ -12,12 +12,35 @@ def vectorise_text(ctx, json_payload):
     llm_name = ctx["llm_name"]
     embedder = ctx["st_object_model"]
     device = ctx["torch_device"]
-    lang = json_payload["language"].strip().lower()
+
+    # Input validate language
+
+    if not "language" in json_payload:
+        return jsonify('{No language specified}')
+
+    lang = json_payload["language"]
+    
+    if not isinstance(lang, str):
+        return jsonify('{Language must be string}')   
+    
+    lang = lang.strip().lower()
+
+    # Input validate text to be vectorised (check if vectorise field exists and is either list type of string)
+    if not "vectorise" in json_payload:
+        return jsonify('{No text to be vectorised specified}')
+    
+    if not (isinstance(json_payload['vectorise'], list) or isinstance(json_payload['vectorise'], str)):
+        return jsonify('{Text to be vectorised must be list of strings or string}')
+    
     logger.debug('GET /sbert_get_vector/{}'.format(json_payload))
 
     match = {}
     cnt = 0
     for query in json_payload['vectorise']:
+        # Input validate text to be vectorised (check if each element of the list is string)
+        if not isinstance(query, str):
+            return jsonify('{Text to be vectorised must be list of strings or string}')
+        
         query_embedding = embedder.encode(query, device=device, show_progress_bar=False)
         dim = len(query_embedding)
         vector = query_embedding.tolist()
