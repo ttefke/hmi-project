@@ -1,5 +1,6 @@
 import sqlite3
 
+# SBERT matching
 def get_learning_obj_en(db_file):
     """
     :param db_file: database file location
@@ -36,6 +37,11 @@ def get_course_contents(db_file):
 
     return contents
 
+# SQL matching
+def row_to_course_information(row):
+    # Selects the following columns: file location, title, instructor, learning objectives
+    return row[0:4]
+
 def get_course_by_title(db_file, title):
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
@@ -44,7 +50,7 @@ def get_course_by_title(db_file, title):
     records = cursor.fetchall()
     courses = []
     for row in records:
-        courses.append(row)
+        courses.append(row_to_course_information(row))
     conn.close()
     return courses
 
@@ -56,7 +62,7 @@ def get_course_by_instructor(db_file, name):
     records = cursor.fetchall()
     instructor = []
     for row in records:
-        instructor.append(row)
+        instructor.append(row_to_course_information(row))
     conn.close()
     return instructor
 
@@ -72,7 +78,7 @@ def get_course_by_area(db_file, elective):
     records = cursor.fetchall()
     courses = []
     for row in records:
-        courses.append(row)
+        courses.append(row_to_course_information(row))
     conn.close()
     return courses
 
@@ -92,7 +98,7 @@ def get_course_by_term(db_file, term):
     records = cursor.fetchall()
     courses = []
     for row in records:
-        courses.append(row)
+        courses.append(row_to_course_information(row))
     conn.close()
     return courses
 
@@ -103,6 +109,6 @@ def get_course_by_index(db_file, index):
     records = cursor.fetchall()
     courses = []
     for row in records:
-        courses.append(row)
+        courses.append(row_to_course_information(row))
     conn.close()
     return courses
