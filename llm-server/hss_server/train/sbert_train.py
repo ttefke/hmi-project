@@ -6,14 +6,15 @@ import torch
 
 
 def get_torch_devide():
-
-    if torch.backends.mps.is_available():
-        torch_device = torch.device('mps')
-    elif torch.cuda.is_available():
-        torch_device = 'cuda'
-    else:
-        torch_device = 'cpu'
-    return torch_device
+    # Training with cuda and using cpu afterwards fails with Docker #TODO: revisit later, maybe there is a solution for this
+    #if torch.backends.mps.is_available():
+    #    torch_device = torch.device('mps')
+    #elif torch.cuda.is_available():
+    #    torch_device = 'cuda'
+    #else:
+    #    torch_device = 'cpu'
+    #return torch_device
+    return 'cpu'
 
 
 def train_learning_obj_en(db, llm_name, model_output):

@@ -77,3 +77,14 @@ def get_course_by_term(db_file, term):
         courses.append(row)
     conn.close()
     return courses
+
+def get_course_by_index(db_file, index):
+    conn = sqlite3.connect(db_file)
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM acs_modules WHERE ROWID = ?", (index,))
+    records = cursor.fetchall()
+    courses = []
+    for row in records:
+        courses.append(row)
+    conn.close()
+    return courses

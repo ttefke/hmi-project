@@ -5,7 +5,7 @@ from quart_cors import *
 from quart import Quart, request, jsonify
 from pyfiglet import Figlet
 from matcher.sbert import vectorise_text
-from matcher.query import list_course_by_title, list_course_by_instructor, list_course_by_area, list_course_by_term
+from matcher.query import *
 
 logging.getLogger('asyncio').setLevel(logging.ERROR)  # remove asyncio logging
 # --------------------------------------------------------
@@ -84,5 +84,14 @@ async def course_by_term():
         logger.debug('{}'.format(resp))
     return resp
 
+@app.route('/course_by_learning/', methods=['GET'])
+async def course_by_learning():
+    if request.is_json:
+        data_json = await request.get_json()
+        resp = list_course_by_learning(ctx, data_json)
+    else:
+        resp = jsonify('{Well formed JSON is required, please check request}')
+        logger.debug('{}'.format(resp))
+    return resp
 # do not use this in production, run the app as follows: $ hypercorn server:app
 app.run(host="0.0.0.0", debug=False, port=3000)

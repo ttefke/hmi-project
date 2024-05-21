@@ -1,5 +1,9 @@
 from db import db_select
 from quart import jsonify
+import pickle
+import torch
+
+from sentence_transformers import util
 
 def vectorise_text(ctx, json_payload):
     """
@@ -57,3 +61,36 @@ def vectorise_text(ctx, json_payload):
     return match
 
 
+def read_learned_model():
+    try:
+        with open("data/models/gte-large_en.pkl", "rb") as fo:
+            return pickle.load(fo)
+    except IOError as err:
+        print(err)
+
+def get_course_by_learning(ctx, query):
+    embedder = ctx["st_object_model"]
+    device = ctx["torch_device"]
+
+    # Load already known sentences
+    vectorised_modules = read_learned_model()
+
+    # Encode learning object handed over by user
+    vectorised = embedder.encode(query, device=device, show_progress_bar=False)
+    combinations = []
+
+    # Calculate cosine distance for each sentence <-> learning goal combination 
+    for i in range(len(vectorised_modules)):
+        combinations.append([i+1, util.cos_sim(vectorised, vectorised_modules[i]).item()])
+
+    # Sort by match rate
+    combinations = sorted(combinations, key=lambda x:x[1], reverse=True)
+
+    # Return details for courses having a match rate >= 0.8
+    matching_courses = []
+    for index, score in combinations:
+        if (score >= 0.8):
+            db_record = db_select.get_course_by_index(ctx["db_courses"], index)
+            matching_courses.append([score, db_record])
+
+    return matching_courses
