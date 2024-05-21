@@ -40,7 +40,7 @@ def get_course_contents(db_file):
 # SQL matching
 def row_to_course_information(row):
     # Selects the following columns: file location, title, instructor, learning objectives
-    return row[0:4]
+    return [1.0, [row[0:4]]]
 
 def get_course_by_title(db_file, title):
     conn = sqlite3.connect(db_file)
@@ -109,6 +109,6 @@ def get_course_by_index(db_file, index):
     records = cursor.fetchall()
     courses = []
     for row in records:
-        courses.append(row_to_course_information(row))
+        courses.append(row[0:4])
     conn.close()
     return courses

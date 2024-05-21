@@ -1,6 +1,7 @@
 from db.db_select import get_course_by_title, get_course_by_instructor, get_course_by_area, get_course_by_term
 from quart import jsonify
 
+from .formatter import *
 from .sbert import *
 
 def list_course_by_title(ctx, json_payload):
@@ -19,7 +20,7 @@ def list_course_by_title(ctx, json_payload):
     logger.debug('query: {0}'.format(query))
     match = get_course_by_title(db_courses, query)
     logger.debug('{0}'.format(match))
-    return match
+    return toDict(match)
 
 def list_course_by_instructor(ctx, json_payload):
     logger = ctx["logger"]
@@ -37,7 +38,7 @@ def list_course_by_instructor(ctx, json_payload):
     logger.debug('query: {0}'.format(query))
     match = get_course_by_instructor(db_courses, query)
     logger.debug('{0}'.format(match))
-    return match
+    return toDict(match)
 
 def list_course_by_area(ctx, json_payload):
     logger = ctx["logger"]
@@ -55,7 +56,7 @@ def list_course_by_area(ctx, json_payload):
     logger.debug('query: {0}'.format(query))
     match = get_course_by_area(db_courses, query)
     logger.debug('{0}'.format(match))
-    return match
+    return toDict(match)
 
 def list_course_by_term(ctx, json_payload):
     logger = ctx["logger"]
@@ -73,7 +74,7 @@ def list_course_by_term(ctx, json_payload):
     logger.debug('query: {0}'.format(query))
     match = get_course_by_term(db_courses, query)
     logger.debug('{0}'.format(match))
-    return match
+    return toDict(match)
 
 def list_course_by_learning(ctx, json_payload):
     logger = ctx["logger"]
@@ -91,7 +92,7 @@ def list_course_by_learning(ctx, json_payload):
     logger.debug('query: {0}'.format(query))
     match = get_course_by_similarity(ctx, query, "learning_objectives")
     logger.debug('{0}'.format(match))
-    return match
+    return toDict(match)
 
 def list_course_by_contents(ctx, json_payload):
     logger = ctx["logger"]
@@ -109,4 +110,4 @@ def list_course_by_contents(ctx, json_payload):
     logger.debug('query: {0}'.format(query))
     match = get_course_by_similarity(ctx, query, "course_contents")
     logger.debug('{0}'.format(match))
-    return match
+    return toDict(match)
