@@ -68,12 +68,13 @@ def read_learned_model():
     except IOError as err:
         print(err)
 
-def get_course_by_learning(ctx, query):
+def get_course_by_similarity(ctx, query, similarity_indicator):
+    # similarity_indicator is either "learning_objectives" or "course_contents"
     embedder = ctx["st_object_model"]
     device = ctx["torch_device"]
 
     # Load already known sentences
-    vectorised_modules = read_learned_model()
+    vectorised_modules = read_learned_model()[similarity_indicator]
 
     # Encode learning object handed over by user
     vectorised = embedder.encode(query, device=device, show_progress_bar=False)

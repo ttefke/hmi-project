@@ -1,7 +1,7 @@
 import pickle
 from sentence_transformers import SentenceTransformer
 
-from db.db_select import get_learning_obj_en
+from db.db_select import get_learning_obj_en, get_course_contents
 import torch
 
 
@@ -17,7 +17,7 @@ def get_torch_devide():
     return 'cpu'
 
 
-def train_learning_obj_en(db, llm_name, model_output):
+def train(db, llm_name, model_output):
     """
     Trains a LLM using SBERT and the description from the skills in the ESCO database
     @param db: path todatabase location
@@ -26,14 +26,26 @@ def train_learning_obj_en(db, llm_name, model_output):
     @return:
     """
 
-    learning_obj = get_learning_obj_en(db)  # retrieves learning objectives
+    # Retrieve learning objects
+    learning_obj = get_learning_obj_en(db)
     flat_learning_obj = [item for sublist in learning_obj for item in sublist]
+
+    # Retrieve content
+    course_contents = get_course_contents(db)
+    flat_course_contents = [item for sublist in course_contents for item in sublist]
 
     try:
         embedder = SentenceTransformer(llm_name)
         #  save model to disk
         with open(model_output, "wb") as fo:
-            pickle.dump(embedder.encode(flat_learning_obj, device=get_torch_devide(), convert_to_tensor=True), fo)
+            objectives = embedder.encode(flat_learning_obj, device=get_torch_devide(), convert_to_tensor=True)
+            contents = embedder.encode(flat_course_contents, device=get_torch_devide(), convert_to_tensor=True)
+            
+            data = {
+                "learning_objectives": objectives,
+                "course_contents": contents
+            }
+            pickle.dump(data, fo)
     except IOError as err:
         print(err)
 
@@ -46,4 +58,4 @@ if __name__ == "__main__":
     llm_name = "thenlper/gte-large"
     model_vectorised_loc = "../data/models/gte-large_en.pkl"
     # train model in English
-    train_learning_obj_en(location_db, llm_name, model_vectorised_loc)
+    train(location_db, llm_name, model_vectorised_loc)

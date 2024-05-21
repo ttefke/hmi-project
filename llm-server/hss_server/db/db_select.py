@@ -18,6 +18,24 @@ def get_learning_obj_en(db_file):
 
     return learning_obj
 
+def get_course_contents(db_file):
+    """
+    :param db_file: database file location
+    :return: list with course contents
+    """
+    conn = sqlite3.connect(db_file)
+    cursor = conn.cursor()
+
+    statement = 'SELECT course_contents FROM acs_modules'
+    cursor.execute(statement)
+    records = cursor.fetchall()
+    contents = []
+    for row in records:
+        contents.append([row[0]])
+    conn.close()
+
+    return contents
+
 def get_course_by_title(db_file, title):
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()

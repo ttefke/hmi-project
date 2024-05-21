@@ -1,7 +1,7 @@
 from db.db_select import get_course_by_title, get_course_by_instructor, get_course_by_area, get_course_by_term
 from quart import jsonify
 
-from .sbert import get_course_by_learning
+from .sbert import *
 
 def list_course_by_title(ctx, json_payload):
     logger = ctx["logger"]
@@ -89,6 +89,24 @@ def list_course_by_learning(ctx, json_payload):
         return jsonify('{Learning objective must be list of strings}')
     
     logger.debug('query: {0}'.format(query))
-    match = get_course_by_learning(ctx, query)
+    match = get_course_by_similarity(ctx, query, "learning_objectives")
+    logger.debug('{0}'.format(match))
+    return match
+
+def list_course_by_contents(ctx, json_payload):
+    logger = ctx["logger"]
+    match = {}
+
+    if not "vectorise" in json_payload:
+        return jsonify('{No course contents specified}')
+    
+    # We only accept one string to vectorise here, therefore this is safe
+    query = [json_payload['vectorise'][0]]
+    
+    if not isinstance(query, list):
+        return jsonify('{Course contents must be list of strings}')
+    
+    logger.debug('query: {0}'.format(query))
+    match = get_course_by_similarity(ctx, query, "course_contents")
     logger.debug('{0}'.format(match))
     return match

@@ -26,3 +26,4 @@ curl --request GET \
 --data '{"term": "summer"}'
 
 curl --request GET --url 'http://127.0.0.1:3000/course_by_learning/?=' --header 'Content-Type: application/json' --data '{"language": "en", "vectorise": ["project"]}'
+curl --request GET --url 'http://127.0.0.1:3000/course_by_contents/?=' --header 'Content-Type: application/json' --data '{"language": "en", "vectorise": ["project"]}'
