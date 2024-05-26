@@ -1,0 +1,19 @@
+http://localhost:8080/?query=intitle:computer%20graphics%20%20instructor:seichter%20elective:true
+http://localhost:8080/?query=instructor:englmeier|instructor:seichter
+http://localhost:8080/?query=instructor:englmeier%20|%20instructor:seichter
+http://localhost:8080/?query=intitle:software learning:software engineering
+http://localhost:8080/?query=intitle:software%20learning:software%20engineering%20elective:true
+http://localhost:8080/?query=intitle:computer graphics instructor:seichter learning:3D content:3D elective:true term:summer
+http://localhost:8080/?query=term:summer elective:true
+http://localhost:8080/?query=intitle:programming
+http://localhost:8080/?query=instructor:englmeier term:summer
+http://localhost:8080/?query=instructor:englmeier|instructor:seichter|term:summer|intitle:programming|learning:programming elective:true
+http://localhost:8080/?query=instructor:englmeier|instructor:seichter%20learning:programming|learning:sofware%20development
+http://localhost:8080/?query=intitle:programming-instructor:golz
+http://localhost:8080/?query=-instructor:golz
+
+http://localhost:8080/?query=i
+http://localhost:8080/?query=iwesrwerewr
+http://localhost:8080/?query=i234234sdf:swerse rtert werewr wer324:dsfg
+http://localhost:8080/?query=instructor:englmeier sdfsdfsdfsdf:sdfsdf
+http://localhost:8080/?query=instructor:englmeier sdfsdfsdfsdf:sdfsdf dsfg

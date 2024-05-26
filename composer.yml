@@ -27,10 +27,17 @@ services:
     restart: ${RESTART_POLICY}
     volumes:
       - "./llm-server/hss_server:/server"
+ 
+   # Query Processor
+  query:
+    build: QueryProcessor
+    restart: ${RESTART_POLICY}
+    environment:
+      - BACKEND_URL
     labels:
       traefik.enable: "true"
-      traefik.http.middlewares.strip-llm-prefix.stripprefix.prefixes: "/llm"
-      traefik.http.routers.llm.rule: "PathPrefix(`/llm`)"
-      traefik.http.routers.llm.middlewares: "strip-llm-prefix@docker"
-      traefik.http.routers.llm.entryPoints: "web"
-      traefik.http.services.llm.loadbalancer.server.port: "3000"
+      traefik.http.middlewares.strip-query-prefix.stripprefix.prefixes: "/query"
+      traefik.http.routers.query.rule: "PathPrefix(`/query`)"
+      traefik.http.routers.query.middlewares: "strip-query-prefix@docker"
+      traefik.http.routers.query.entryPoints: "web"
+      traefik.http.services.query.loadbalancer.server.port: "8080"
