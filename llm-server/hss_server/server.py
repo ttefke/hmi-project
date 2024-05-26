@@ -21,7 +21,7 @@ logger = ctx["logger"]
 # --------------------------------------------------------------------------
 
 
-@app.route('/vectorise/', methods=['GET'])
+@app.route('/vectorise/', methods=['POST'])
 async def vectorise():
     """
     {
@@ -44,7 +44,7 @@ async def vectorise():
     return resp
 
 
-@app.route('/course_by_title/', methods=['GET'])
+@app.route('/course_by_title/', methods=['POST'])
 async def course_by_title():
     if request.is_json:
         data_json = await request.get_json()
@@ -54,7 +54,7 @@ async def course_by_title():
         logger.debug('{}'.format(resp))
     return resp
 
-@app.route('/course_by_instructor/', methods=['GET'])
+@app.route('/course_by_instructor/', methods=['POST'])
 async def course_by_instructor():
     if request.is_json:
         data_json = await request.get_json()
@@ -64,7 +64,7 @@ async def course_by_instructor():
         logger.debug('{}'.format(resp))
     return resp
 
-@app.route('/course_by_area/', methods=['GET'])
+@app.route('/course_by_area/', methods=['POST'])
 async def course_by_area():
     if request.is_json:
         data_json = await request.get_json()
@@ -74,7 +74,7 @@ async def course_by_area():
         logger.debug('{}'.format(resp))
     return resp
     
-@app.route('/course_by_term/', methods=['GET'])    
+@app.route('/course_by_term/', methods=['POST'])
 async def course_by_term():
     if request.is_json:
         data_json = await request.get_json()
@@ -84,7 +84,7 @@ async def course_by_term():
         logger.debug('{}'.format(resp))
     return resp
 
-@app.route('/course_by_learning/', methods=['GET'])
+@app.route('/course_by_learning/', methods=['POST'])
 async def course_by_learning():
     if request.is_json:
         data_json = await request.get_json()
@@ -94,7 +94,7 @@ async def course_by_learning():
         logger.debug('{}'.format(resp))
     return resp
 
-@app.route('/course_by_contents/', methods=['GET'])
+@app.route('/course_by_contents/', methods=['POST'])
 async def course_by_contents():
     if request.is_json:
         data_json = await request.get_json()
