@@ -32,8 +32,9 @@ public class TextMining {
     private static final String EFFORT_4 = "Total Workload";
 
     private static final String ECTS_1 = "ECTS / Emphasis of the";
-    private static final String ECTS_2 = "Grade for the final Grade";
-    private static final String ECTS_3 = "Grade for the final Grad";
+    private static final String ECTS_2 = "ECTS/ Emphasis of the";
+    private static final String ECTS_3 = "Grade for the final Grade";
+    private static final String ECTS_4 = "Grade for the final Grad";
 
     private static final String PERFORMANCE_RECORD = "Performance Record";
     private static final String SEMESTER = "Semester";
@@ -236,6 +237,8 @@ public class TextMining {
                             currentModule.setECTS(currentModule.getECTS() + " " + line.substring(ECTS_2.length()));
                         } else if (line.startsWith(ECTS_3)) {
                             currentModule.setECTS(currentModule.getECTS() + " " + line.substring(ECTS_3.length()));
+                        } else if (line.startsWith(ECTS_4)) {
+                            currentModule.setECTS(currentModule.getECTS() + " " + line.substring(ECTS_4.length()));
                         } else {
                             currentModule.setECTS(currentModule.getECTS() + " " + line);
                         }
