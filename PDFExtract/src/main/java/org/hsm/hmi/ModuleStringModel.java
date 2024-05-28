@@ -212,10 +212,22 @@ public class ModuleStringModel implements Serializable {
     }
 
     public String getTypeOfCourse() {
-        return typeOfCourse;
+        if (typeOfCourse.isEmpty()) {
+            return "obligatory";
+        } else {
+            return typeOfCourse;
+        }
     }
 
     public void setTypeOfCourse(String typeOfCourse) {
-        this.typeOfCourse = typeOfCourse;
+        String lowerCase = typeOfCourse.toLowerCase();
+
+        if (lowerCase.contains("selectable") || (lowerCase.contains("selection")) ||
+                (lowerCase.contains("optional")) || (lowerCase.contains("elective")) ||
+                (lowerCase.contains("lecture"))) {
+            this.typeOfCourse = "elective";
+        } else {
+            this.typeOfCourse = "obligatory";
+        }
     }
 }
