@@ -95,9 +95,10 @@ public class TextMining {
                 }
 
                 line = line.replace("•", "");
-                line = line.replace("'", "''");
-                line = line.replace("”", "\"");
-                line = line.replace("“", "\"");
+                line = line.replace("'", "");
+                line = line.replace("”", "");
+                line = line.replace("“", "");
+                line = line.replace("„", "");
                 line = line.replace("®", "");
                 line = line.replace("…", "...");
 
