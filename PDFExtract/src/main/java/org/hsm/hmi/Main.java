@@ -76,7 +76,7 @@ public class Main {
             final String finalSQLResponse = sqlResponse;
             server.createContext("/modules_sql", httpExchange -> {
                 OutputStream output = httpExchange.getResponseBody();
-                httpExchange.getResponseHeaders().set("Content-Type", "text/plain");
+                httpExchange.getResponseHeaders().set("Content-Type", "text/plain; charset=utf-8");
                 httpExchange.sendResponseHeaders(200, finalSQLResponse.getBytes().length);
                 output.write(finalSQLResponse.getBytes());
                 output.flush();
