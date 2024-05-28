@@ -13,17 +13,17 @@ import (
 func handleFacet(expression QueryExpression) ([]CourseData, error) {
 	switch expression.facet {
 	case INTITLE:
-		return handleTitle(expression.operand)
+		return handleTitle(strings.ToLower(expression.operand))
 	case INSTRUCTOR:
-		return handleInstructor(expression.operand)
+		return handleInstructor(strings.ToLower(expression.operand))
 	case LEARNING:
-		return handleLearning(expression.operand)
+		return handleLearning(strings.ToLower(expression.operand))
 	case CONTENT:
-		return handleContent(expression.operand)
+		return handleContent(strings.ToLower(expression.operand))
 	case ELECTIVE:
-		return handleElective(expression.operand)
+		return handleElective(strings.ToLower(expression.operand))
 	case TERM:
-		return handleTerm(expression.operand)
+		return handleTerm(strings.ToLower(expression.operand))
 	default:
 		return []CourseData{}, errors.New("unknown facet")
 	}
