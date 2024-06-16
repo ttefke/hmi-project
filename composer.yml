@@ -20,6 +20,20 @@ services:
       - "8080:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  # frontend
+  frontend:
+    build: frontend
+    restart: ${RESTART_POLICY}
+    volumes:
+      - "./frontend/www:/usr/share/nginx/html"
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.strip-frontend-prefix.stripprefix.prefixes: "/"
+      traefik.http.routers.frontend.rule: "PathPrefix(`/`)"
+      traefik.http.routers.frontend.middlewares: "strip-frontend-prefix@docker"
+      traefik.http.routers.frontend.entryPoints: "web"
+      traefik.http.services.frontend.loadbalancer.server.port: "80"
       
   # Server providing the LLM (/vectorise API)
   llm:

@@ -1,0 +1,30 @@
+server {
+    listen       80;
+    listen  [::]:80;
+    server_name  _;
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+        
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+        
+    # Don't serve git files 
+    location ~ /(.gitignore|.git) {
+        return 404;
+    }
+        
+    # Don't serve Makefile (used in maps for generating the scripts)
+    location ~/(makefile|Makefile|GNUmakefile) {
+        return 404;
+    }
+        
+    # Don't serve m4 scripts for generating map scripts
+    location /script_snippets {
+        return 404;
+    }
+}
