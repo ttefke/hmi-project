@@ -90,7 +90,7 @@ def get_course_by_similarity(ctx, query, similarity_indicator):
     # Return details for courses having a match rate >= 0.8
     matching_courses = []
     for index, score in combinations:
-        if (score >= 0.8):
+        if (score >= 0.75):
             db_record = db_select.get_course_by_index(ctx["db_courses"], index)
             matching_courses.append([score, db_record])
 
