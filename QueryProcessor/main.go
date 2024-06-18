@@ -14,26 +14,30 @@ var backendUrl string
 
 func QueryHandler(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query().Get("query")
-	fmt.Println(query)
-	if len(query) == 0 {
-		fmt.Fprintf(w, "No query provided")
-		return
-	}
-	statements := parse(query)
-	if isValid(statements) {
-		courses, err := handleStatements(statements)
-		if err != nil {
-			log.Println("Error while processing query:", err)
+
+	// Empty object returned if query is empty or invalid
+	var coursesOverview CourseOverview
+	coursesOverview.Courses = []CourseData{}
+
+	// Parse query if present
+	if len(query) > 0 {
+		statements := parse(query)
+
+		// Interpret and handle facets if present
+		if isValid(statements) {
+			courses, err := handleStatements(statements)
+			if err != nil {
+				log.Println("Error while processing query:", err)
+			}
+			coursesOverview = CourseOverview{Courses: courses}
 		}
-		coursesOverview := CourseOverview{Courses: courses}
-		decodedCourses, err := json.Marshal(coursesOverview)
-		if err != nil {
-			log.Println("Error while marshalling json:", err)
-		}
-		fmt.Fprint(w, string(decodedCourses))
-	} else {
-		fmt.Fprintf(w, "Invalid query!")
 	}
+
+	decodedCourses, err := json.Marshal(coursesOverview)
+	if err != nil {
+		log.Println("Error while marshalling json:", err)
+	}
+	fmt.Fprint(w, string(decodedCourses))
 }
 
 func main() {
