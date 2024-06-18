@@ -72,11 +72,12 @@ def list_course_by_area(ctx, json_payload):
     
     query = json_payload['elective']
 
-    if not isinstance(query, bool):
-        return jsonify('{Course type must be boolean}')
+    if not isinstance(query, str):
+        return jsonify('{Course type must be string}')
 
     logger.debug('query: {0}'.format(query))
-    match = get_course_by_area(db_courses, query)
+    match = get_course_by_area(db_courses, query,
+        isAnyMatch(json_payload), isExactMatch(json_payload))
     logger.debug('{0}'.format(match))
     return toDict(match)
 
@@ -94,7 +95,8 @@ def list_course_by_term(ctx, json_payload):
         return jsonify('{Course term must be string}')
     
     logger.debug('query: {0}'.format(query))
-    match = get_course_by_term(db_courses, query)
+    match = get_course_by_term(db_courses, query,
+        isAnyMatch(json_payload), isExactMatch(json_payload))
     logger.debug('{0}'.format(match))
     return toDict(match)
 

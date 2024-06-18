@@ -71,11 +71,15 @@ type InstructorRequest struct {
 }
 
 type ElectiveRequest struct {
-	Elective bool `json:"elective"`
+	Elective   string `json:"elective"`
+	AnyMatch   bool   `json:"any"`
+	ExactMatch bool   `json:"exact"`
 }
 
 type TermRequest struct {
-	Term string `json:"term"`
+	Term       string `json:"term"`
+	AnyMatch   bool   `json:"any"`
+	ExactMatch bool   `json:"exact"`
 }
 
 // Learning, Content

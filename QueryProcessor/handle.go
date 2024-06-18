@@ -108,7 +108,9 @@ func handleContent(content string) ([]CourseData, error) {
 func handleElective(elective string) ([]CourseData, error) {
 	elective = strings.ToLower(elective)
 	requestedElective := ElectiveRequest{
-		Elective: elective == "true" || elective == "\"true\"",
+		Elective:   elective,
+		AnyMatch:   isAnyMatch(elective),
+		ExactMatch: isExactMatch(elective),
 	}
 	requestedElectiveJson, err := json.Marshal(requestedElective)
 	if err != nil {
@@ -121,7 +123,9 @@ func handleElective(elective string) ([]CourseData, error) {
 
 func handleTerm(term string) ([]CourseData, error) {
 	requestedTerm := TermRequest{
-		Term: term,
+		Term:       term,
+		AnyMatch:   isAnyMatch(term),
+		ExactMatch: isExactMatch(term),
 	}
 
 	requestedTermJson, err := json.Marshal(requestedTerm)
