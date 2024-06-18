@@ -28,8 +28,22 @@ func handleFacet(expression QueryExpression) ([]CourseData, error) {
 		return []CourseData{}, errors.New("unknown facet")
 	}
 }
+
+func isAnyMatch(s string) bool {
+	return s == "*"
+}
+
+func isExactMatch(s string) bool {
+	return strings.HasPrefix(s, "\"") && strings.HasSuffix(s, "\"")
+}
+
 func handleTitle(title string) ([]CourseData, error) {
-	requestedTitle := TitleRequest{Intitle: title}
+	requestedTitle := TitleRequest{
+		Intitle:    title,
+		AnyMatch:   isAnyMatch(title),
+		ExactMatch: isExactMatch(title),
+	}
+
 	requestedTitleJson, err := json.Marshal(requestedTitle)
 	if err != nil {
 		log.Println("Could not encode title in JSON:", err)
@@ -40,7 +54,12 @@ func handleTitle(title string) ([]CourseData, error) {
 }
 
 func handleInstructor(instructor string) ([]CourseData, error) {
-	requestedInstructor := InstructorRequest{Instructor: instructor}
+	requestedInstructor := InstructorRequest{
+		Instructor: instructor,
+		AnyMatch:   isAnyMatch(instructor),
+		ExactMatch: isExactMatch(instructor),
+	}
+
 	requestedInstructorJson, err := json.Marshal(requestedInstructor)
 	if err != nil {
 		log.Println("Could not encode instructor in JSON:", err)
@@ -52,7 +71,13 @@ func handleInstructor(instructor string) ([]CourseData, error) {
 
 func handleLearning(learningObjective string) ([]CourseData, error) {
 	learningObjectiveSlice := []string{learningObjective}
-	requestedLearningObjective := VectoriseRequest{Language: "en", Vectorise: learningObjectiveSlice}
+	requestedLearningObjective := VectoriseRequest{
+		Language:   "en",
+		Vectorise:  learningObjectiveSlice,
+		AnyMatch:   isAnyMatch(learningObjective),
+		ExactMatch: isExactMatch(learningObjective),
+	}
+
 	requestedLearningObjectiveJson, err := json.Marshal(requestedLearningObjective)
 	if err != nil {
 		log.Println("Could not encode learning objective in JSON:", err)
@@ -64,7 +89,13 @@ func handleLearning(learningObjective string) ([]CourseData, error) {
 
 func handleContent(content string) ([]CourseData, error) {
 	contentSlice := []string{content}
-	requestedContentObjective := VectoriseRequest{Language: "en", Vectorise: contentSlice}
+	requestedContentObjective := VectoriseRequest{
+		Language:   "en",
+		Vectorise:  contentSlice,
+		AnyMatch:   isAnyMatch(content),
+		ExactMatch: isExactMatch(content),
+	}
+
 	requestedContentObjectiveJson, err := json.Marshal(requestedContentObjective)
 	if err != nil {
 		log.Println("Could not encode course contents in JSON:", err)
@@ -76,7 +107,9 @@ func handleContent(content string) ([]CourseData, error) {
 
 func handleElective(elective string) ([]CourseData, error) {
 	elective = strings.ToLower(elective)
-	requestedElective := ElectiveRequest{Elective: elective == "true"}
+	requestedElective := ElectiveRequest{
+		Elective: elective == "true" || elective == "\"true\"",
+	}
 	requestedElectiveJson, err := json.Marshal(requestedElective)
 	if err != nil {
 		log.Println("Could not encode elective in JSON:", err)
@@ -87,7 +120,10 @@ func handleElective(elective string) ([]CourseData, error) {
 }
 
 func handleTerm(term string) ([]CourseData, error) {
-	requestedTerm := TermRequest{Term: term}
+	requestedTerm := TermRequest{
+		Term: term,
+	}
+
 	requestedTermJson, err := json.Marshal(requestedTerm)
 	if err != nil {
 		log.Println("Could not encode term in JSON:", err)

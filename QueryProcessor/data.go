@@ -59,11 +59,15 @@ type QueryExpression struct {
 }
 
 type TitleRequest struct {
-	Intitle string `json:"intitle"`
+	Intitle    string `json:"intitle"`
+	AnyMatch   bool   `json:"any"`
+	ExactMatch bool   `json:"exact"`
 }
 
 type InstructorRequest struct {
 	Instructor string `json:"instructor"`
+	AnyMatch   bool   `json:"any"`
+	ExactMatch bool   `json:"exact"`
 }
 
 type ElectiveRequest struct {
@@ -74,7 +78,10 @@ type TermRequest struct {
 	Term string `json:"term"`
 }
 
+// Learning, Content
 type VectoriseRequest struct {
-	Language  string   `json:"language"`
-	Vectorise []string `json:"vectorise"`
+	Language   string   `json:"language"`
+	Vectorise  []string `json:"vectorise"`
+	AnyMatch   bool     `json:"any"`
+	ExactMatch bool     `json:"exact"`
 }
