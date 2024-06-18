@@ -37,6 +37,9 @@ func QueryHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println("Error while marshalling json:", err)
 	}
+
+	// Output matching courses
+	w.Header().Add("Content-Type", "application/json")
 	fmt.Fprint(w, string(decodedCourses))
 }
 
