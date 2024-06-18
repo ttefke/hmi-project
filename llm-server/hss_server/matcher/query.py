@@ -117,9 +117,9 @@ def list_course_by_learning(ctx, json_payload):
     exactMatch = isExactMatch(json_payload)
     anyMatch = isAnyMatch(json_payload)
 
-    if isExactMatch:
+    if exactMatch:
         match = get_course_by_learning(db_courses, query, False, True)
-    elif isAnyMatch:
+    elif anyMatch:
         match = get_course_by_learning(db_courses, query, True, False)
     else:
         match = get_course_by_similarity(ctx, query, "learning_objectives")
@@ -146,9 +146,9 @@ def list_course_by_contents(ctx, json_payload):
     exactMatch = isExactMatch(json_payload)
     anyMatch = isAnyMatch(json_payload)
 
-    if isExactMatch:
+    if exactMatch:
         match = get_course_by_content(db_courses, query, False, True)
-    elif isAnyMatch:
+    elif anyMatch:
         match = get_course_by_content(db_courses, query, True, False)
     else:
         match = get_course_by_similarity(ctx, query, "course_contents")
