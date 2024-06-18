@@ -21,3 +21,8 @@ QueryProcessor/QueryProcessor
 *.pdf
 *.backup
 !llm-server/hss_server/docs/readme/README.pdf
+
+# Built and intermediate frontend files
+frontend/react-search-bar-main/dist
+frontend/react-search-bar-main/node_modules
+
