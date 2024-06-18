@@ -6,8 +6,8 @@ public class SQLInsertStatementGenerator {
         result.append("INSERT INTO acs_modules\n");
         result.append("VALUES (");
 
-        // file location (currently not deceided on yet - fill out later)
-        result.append("'../data/courses/acs/manual.pdf',");
+        // page number
+        result.append("'").append(model.getPageNr()).append("',");
 
         // title
         result.append("'").append(model.getName()).append("',");

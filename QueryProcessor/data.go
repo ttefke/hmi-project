@@ -6,14 +6,14 @@ type CourseOverview struct {
 
 type CourseData struct {
 	MatchRate          float64 `json:"matchRate"`
-	Manual             string  `json:"manual"`
+	PageNumber         int     `json:"pageNumber"`
 	Title              string  `json:"title"`
 	Instructor         string  `json:"instructor"`
 	LearningObjectives string  `json:"learningObjectives"`
 }
 
 func (a CourseData) equals(b CourseData) bool {
-	if a.Manual != b.Manual {
+	if a.PageNumber != b.PageNumber {
 		return false
 	}
 	if a.Title != b.Title {

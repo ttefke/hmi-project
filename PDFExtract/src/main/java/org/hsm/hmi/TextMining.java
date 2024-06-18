@@ -77,6 +77,7 @@ public class TextMining {
 
         // filter pages with modules
         ModuleStringModel currentModule = new ModuleStringModel();
+        currentModule.setPageNr(pagesWithContent[0]+1);
         ModuleProperties.ModuleProperty currentProperty = ModuleProperties.ModuleProperty.UNDEFINED;
         boolean nextLineIsPageNumber = false;
         for (int pageNumber: pagesWithContent) {
@@ -154,6 +155,7 @@ public class TextMining {
                                 modulesAsStringModels.add(currentModule);
                             }
                             currentModule = new ModuleStringModel();
+                            currentModule.setPageNr(pageNumber+1);
                             if (line.startsWith(MODULE_NAME_1)) {
                                 currentModule.setName(currentModule.getName() + line.substring(MODULE_NAME_1.length()));
                             } else {
@@ -298,7 +300,7 @@ public class TextMining {
                 }
             }
         }
-
+        modulesAsStringModels.add(currentModule);
         return modulesAsStringModels;
     }
 }

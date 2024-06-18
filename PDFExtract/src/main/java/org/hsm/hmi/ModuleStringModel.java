@@ -56,6 +56,9 @@ public class ModuleStringModel implements Serializable {
     // Type of course
     private String typeOfCourse;
 
+    // Page number
+    private int pageNr;
+
     public ModuleStringModel() {
         this.name = "";
         this.professor = "";
@@ -72,6 +75,7 @@ public class ModuleStringModel implements Serializable {
         this.frequency = "";
         this.duration = "";
         this.typeOfCourse = "";
+        this.pageNr = 0;
     }
 
     public void prepareForOutput() {
@@ -229,5 +233,13 @@ public class ModuleStringModel implements Serializable {
         } else {
             this.typeOfCourse = "obligatory";
         }
+    }
+
+    public int getPageNr() {
+        return pageNr;
+    }
+
+    public void setPageNr(int pageNr) {
+        this.pageNr = pageNr;
     }
 }

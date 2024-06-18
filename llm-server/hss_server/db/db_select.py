@@ -61,28 +61,22 @@ def get_course_by_title(db_file, title, isAnyMatch, isExactMatch):
     return courses
 
 def get_course_by_instructor(db_file, name, isAnyMatch, isExactMatch):
-    try:
-        conn = sqlite3.connect(db_file)
-        cursor = conn.cursor()
+    conn = sqlite3.connect(db_file)
+    cursor = conn.cursor()
 
-        print(name)
-
-        if isAnyMatch:
-            cursor.execute('SELECT * FROM acs_modules;')
-        elif isExactMatch:
-            cursor.execute('SELECT * FROM acs_modules WHERE UPPER(instructor) LIKE UPPER(?);', ("%" + name[1:-1] + "%",))
-        else:
-            cursor.execute('SELECT * FROM acs_modules WHERE UPPER(instructor) LIKE UPPER(?);', ("%" + name + "%",))
+    if isAnyMatch:
+        cursor.execute('SELECT * FROM acs_modules;')
+    elif isExactMatch:
+        cursor.execute('SELECT * FROM acs_modules WHERE UPPER(instructor) LIKE UPPER(?);', ("%" + name[1:-1] + "%",))
+    else:
+        cursor.execute('SELECT * FROM acs_modules WHERE UPPER(instructor) LIKE UPPER(?);', ("%" + name + "%",))
         
-        records = cursor.fetchall()
-        courses = []
-        for row in records:
-            courses.append(row_to_course_information(row))
-        conn.close()
-        return courses
-    except Exception as e:
-        print(e)
-        return []
+    records = cursor.fetchall()
+    courses = []
+    for row in records:
+        courses.append(row_to_course_information(row))
+    conn.close()
+    return courses
 
 def get_course_by_area(db_file, elective):
     conn = sqlite3.connect(db_file)

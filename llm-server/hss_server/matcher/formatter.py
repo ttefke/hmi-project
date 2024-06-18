@@ -6,7 +6,7 @@ def toDict(courses):
     for i in courses:
         course = {}
         course["matchRate"] = i[0]
-        course["manual"] = i[1][0][0]
+        course["pageNumber"] = int(i[1][0][0])
         course["title"] = i[1][0][1]
         course["instructor"] = i[1][0][2]
         course["learningObjectives"] = i[1][0][3]

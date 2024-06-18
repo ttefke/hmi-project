@@ -49,7 +49,7 @@ public class Main {
 
             // Modules in SQL:
             String sqlResponse = "CREATE TABLE \"acs_modules\" (\n" +
-                    "\t\"file_loc\"\tTEXT,\n" +
+                    "\t\"page_nr\"\tTEXT,\n" +
                     "\t\"title\"\tTEXT, \n" +
                     "\t\"instructor\"\tTEXT, \n" +
                     "\t\"learning_obj\"\tTEXT, \n" +
