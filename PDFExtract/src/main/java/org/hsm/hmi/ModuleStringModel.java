@@ -75,21 +75,21 @@ public class ModuleStringModel implements Serializable {
     }
 
     public void prepareForOutput() {
-        this.name = this.name.strip().toLowerCase();
-        this.professor = this.professor.strip().toLowerCase();
-        this.targets = this.targets.strip().toLowerCase();
-        this.contents = this.contents.strip().toLowerCase();
-        this.methods = this.methods.strip().toLowerCase();
-        this.requirements = this.requirements.strip().toLowerCase();
-        this.literature = this.literature.strip().toLowerCase();
-        this.applicability = this.applicability.strip().toLowerCase();
-        this.ECTS = this.ECTS.strip().toLowerCase();
-        this.effort = this.effort.strip().toLowerCase();
-        this.performanceRecord = this.performanceRecord.strip().toLowerCase();
-        this.semester = this.semester.strip().toLowerCase();
-        this.frequency = this.frequency.strip().toLowerCase();
-        this.duration = this.duration.strip().toLowerCase();
-        this.typeOfCourse = this.typeOfCourse.strip().toLowerCase();
+        this.name = this.name.strip();
+        this.professor = this.professor.strip();
+        this.targets = this.targets.strip();
+        this.contents = this.contents.strip();
+        this.methods = this.methods.strip();
+        this.requirements = this.requirements.strip();
+        this.literature = this.literature.strip();
+        this.applicability = this.applicability.strip();
+        this.ECTS = this.ECTS.strip();
+        this.effort = this.effort.strip();
+        this.performanceRecord = this.performanceRecord.strip();
+        this.semester = this.semester.strip();
+        this.frequency = this.frequency.strip();
+        this.duration = this.duration.strip();
+        this.typeOfCourse = this.typeOfCourse.strip();
     }
     @SuppressWarnings("unused")
     public String asJSON() throws JsonProcessingException {
