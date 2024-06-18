@@ -179,9 +179,6 @@ func and(a, b []CourseData) []CourseData {
 			result = append(result, course)
 		}
 	}
-	log.Println("a:", a)
-	log.Println("b:", b)
-	log.Println("a AND b:", result)
 	return result
 }
 
@@ -197,8 +194,5 @@ func not(courses, coursesToRemove []CourseData) []CourseData {
 			result = append(result, course)
 		}
 	}
-	log.Println("courses:", courses)
-	log.Println("coursesToRemove:", coursesToRemove)
-	log.Println("a NOT b:", result)
 	return result
 }
