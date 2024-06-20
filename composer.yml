@@ -25,6 +25,8 @@ services:
   frontend:
     build: frontend
     restart: ${RESTART_POLICY}
+    volumes:
+      - "./frontend/www:/usr/share/nginx/html"
     labels:
       traefik.enable: "true"
       traefik.http.middlewares.strip-frontend-prefix.stripprefix.prefixes: "/"
