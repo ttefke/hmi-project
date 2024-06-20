@@ -51,6 +51,14 @@ form button {
   cursor: pointer;
 }
 
+form button:hover {
+  background: #000; /* Change to black on hover */
+}
+
+form button:active {
+  background: #000; /* Change to black on click */
+}
+
 ::placeholder {
   color: #fff;
   font-size: 18px;
@@ -72,10 +80,7 @@ form button {
   width: 80%;
   margin: 100px auto 50px;
   display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(300px, 1fr)
-  ); /* Adjust grid layout for course results */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
 }
 

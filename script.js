@@ -2,9 +2,13 @@ const searchForm = document.getElementById("search-form");
 const searchBox = document.getElementById("search-box");
 const searchResult = document.getElementById("search-result");
 const showMoreBtn = document.getElementById("show-more-btn");
+const searchButton = document.getElementById("search-button");
 
 let keyword = "";
 let pageNumber = 1;
+
+// Replace with your actual API base URL
+const API_BASE_URL = "http://localhost:3000"; // Example base URL
 
 async function searchCourse() {
   keyword = searchBox.value.trim();
@@ -13,7 +17,7 @@ async function searchCourse() {
     return;
   }
 
-  const url = `/query/?query=${encodeURIComponent(
+  const url = `${API_BASE_URL}/query/?query=${encodeURIComponent(
     keyword
   )}&pageNumber=${pageNumber}`;
 
@@ -27,32 +31,36 @@ async function searchCourse() {
 
     if (pageNumber === 1) searchResult.innerHTML = ""; // Clear previous results
 
-    data.courses.forEach((course) => {
-      const courseDiv = document.createElement("div");
-      courseDiv.classList.add("course-result");
+    if (data.courses && data.courses.length > 0) {
+      data.courses.forEach((course) => {
+        const courseDiv = document.createElement("div");
+        courseDiv.classList.add("course-result");
 
-      const title = document.createElement("h2");
-      title.textContent = course.title;
+        const title = document.createElement("h2");
+        title.textContent = course.title || "No Title";
 
-      const instructor = document.createElement("p");
-      instructor.textContent = `Instructor: ${course.instructor}`;
+        const instructor = document.createElement("p");
+        instructor.textContent = `Instructor: ${
+          course.instructor || "Unknown"
+        }`;
 
-      const learningObjectives = document.createElement("p");
-      learningObjectives.textContent = `Learning Objectives: ${course.learningObjectives}`;
+        const learningObjectives = document.createElement("p");
+        learningObjectives.textContent = `Learning Objectives: ${
+          course.learningObjectives || "Not specified"
+        }`;
 
-      const matchRate = document.createElement("p");
-      matchRate.textContent = `Match Rate: ${course.matchRate}`;
+        const matchRate = document.createElement("p");
+        matchRate.textContent = `Match Rate: ${course.matchRate}`;
 
-      courseDiv.appendChild(title);
-      courseDiv.appendChild(instructor);
-      courseDiv.appendChild(learningObjectives);
-      courseDiv.appendChild(matchRate);
+        courseDiv.appendChild(title);
+        courseDiv.appendChild(instructor);
+        courseDiv.appendChild(learningObjectives);
+        courseDiv.appendChild(matchRate);
 
-      searchResult.appendChild(courseDiv);
-    });
+        searchResult.appendChild(courseDiv);
+      });
 
-    // Show the "Show More" button if more results are available
-    if (data.courses.length > 0) {
+      // Show the "Show More" button if more results are available
       showMoreBtn.style.display = "block";
     } else {
       showMoreBtn.style.display = "none";
@@ -73,4 +81,13 @@ searchForm.addEventListener("submit", (event) => {
 showMoreBtn.addEventListener("click", () => {
   pageNumber++;
   searchCourse();
+});
+
+// Event listener for the search button click
+searchButton.addEventListener("mousedown", () => {
+  searchButton.style.backgroundColor = "#000"; // Change to black on click
+});
+
+searchButton.addEventListener("mouseup", () => {
+  searchButton.style.backgroundColor = "#ff3929"; // Change back to original color
 });
