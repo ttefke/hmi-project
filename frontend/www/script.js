@@ -1,11 +1,16 @@
 const searchForm = document.getElementById("search-form");
 const searchBox = document.getElementById("search-box");
 const searchResult = document.getElementById("search-result");
+const resultTableBody = document.querySelector("#result-table tbody");
 const showMoreBtn = document.getElementById("show-more-btn");
 const searchButton = document.getElementById("search-button");
+const moreInfoLink = document.getElementById("more-info-link");
 
 let keyword = "";
 let pageNumber = 1;
+
+// Replace with your actual API base URL
+const API_BASE_URL = "http://localhost:3000"; // Example base URL
 
 async function searchCourse() {
   keyword = searchBox.value.trim();
@@ -14,9 +19,9 @@ async function searchCourse() {
     return;
   }
 
-  const url = `/query/?query=${encodeURIComponent(
+  const url = `${API_BASE_URL}/query/?query=${encodeURIComponent(
     keyword
-  )}`;
+  )}&pageNumber=${pageNumber}`;
 
   try {
     const response = await fetch(url);
@@ -26,42 +31,54 @@ async function searchCourse() {
     const data = await response.json();
     console.log(data); // Log the data for debugging
 
-    if (pageNumber === 1) searchResult.innerHTML = ""; // Clear previous results
+    if (pageNumber === 1) resultTableBody.innerHTML = ""; // Clear previous results
 
     if (data.courses && data.courses.length > 0) {
       data.courses.forEach((course) => {
-        const courseDiv = document.createElement("div");
-        courseDiv.classList.add("course-result");
+        const row = document.createElement("tr");
 
-        const title = document.createElement("h2");
-        title.textContent = course.title || "No Title";
+        const titleCell = document.createElement("td");
+        titleCell.textContent = course.title || "No Title";
 
-        const instructor = document.createElement("p");
-        instructor.textContent = `Instructor: ${
-          course.instructor || "Unknown"
-        }`;
+        const instructorCell = document.createElement("td");
+        instructorCell.textContent = course.instructor || "Unknown";
 
-        const learningObjectives = document.createElement("p");
-        learningObjectives.textContent = `Learning Objectives: ${
-          course.learningObjectives || "Not specified"
-        }`;
+        const objectivesCell = document.createElement("td");
+        objectivesCell.textContent =
+          course.learningObjectives || "Not specified";
 
-        const matchRate = document.createElement("p");
-        matchRate.textContent = `Match Rate: ${course.matchRate}`;
+        const matchRateCell = document.createElement("td");
+        matchRateCell.textContent = `${course.matchRate * 100}%`;
 
-        courseDiv.appendChild(title);
-        courseDiv.appendChild(instructor);
-        courseDiv.appendChild(learningObjectives);
-        courseDiv.appendChild(matchRate);
+        if (course.matchRate >= 0.8) {
+          row.classList.add("green");
+        } else if (course.matchRate >= 0.5) {
+          row.classList.add("yellow");
+        } else {
+          row.classList.add("red");
+        }
 
-        searchResult.appendChild(courseDiv);
+        row.appendChild(titleCell);
+        row.appendChild(instructorCell);
+        row.appendChild(objectivesCell);
+        row.appendChild(matchRateCell);
+
+        resultTableBody.appendChild(row);
       });
 
-      // Show the "Show More" button if more results are available
+      // Show the result table, "Show More" button, and "More Info" link
+      searchResult.style.display = "block";
       showMoreBtn.style.display = "block";
+      moreInfoLink.style.display = "block";
     } else {
+      // Hide the result table, "Show More" button, and "More Info" link if no results
+      searchResult.style.display = "none";
       showMoreBtn.style.display = "none";
+      moreInfoLink.style.display = "none";
     }
+
+    // Update the "More Info" link
+    moreInfoLink.href = `/more-info?query=${encodeURIComponent(keyword)}`;
   } catch (error) {
     console.error("Error fetching data: ", error);
   }

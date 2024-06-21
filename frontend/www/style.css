@@ -64,6 +64,54 @@ form button:active {
   font-size: 18px;
 }
 
+#search-result {
+  width: 80%;
+  margin: 100px auto 50px;
+}
+
+#result-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  color: #000;
+}
+
+#result-table th,
+#result-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+#result-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#result-table tbody tr.green {
+  background-color: #d4edda;
+}
+
+#result-table tbody tr.yellow {
+  background-color: #fff3cd;
+}
+
+#result-table tbody tr.red {
+  background-color: #f8d7da;
+}
+
+#more-info-link {
+  display: none;
+  color: #ff3929;
+  text-align: center;
+  text-decoration: none;
+  font-size: 18px;
+  margin: 20px auto;
+}
+
+#more-info-link:hover {
+  text-decoration: underline;
+}
+
 #show-more-btn {
   background: #ff3929;
   color: #fff;
@@ -74,23 +122,4 @@ form button:active {
   margin: 10px auto 100px;
   cursor: pointer;
   display: none;
-}
-
-#search-result {
-  width: 80%;
-  margin: 100px auto 50px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-.course-result {
-  background: #fff;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.course-result h2 {
-  margin-bottom: 10px;
 }

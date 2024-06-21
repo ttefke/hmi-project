@@ -16,8 +16,23 @@
       />
       <button id="search-button">Search</button>
     </form>
-    <div id="search-result"></div>
-    <button id="show-more-btn">Show more</button>
+    <div id="search-result" style="display: none">
+      <table id="result-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Instructor</th>
+            <th>Learning Objectives</th>
+            <th>Match Rate</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <a id="more-info-link" href="#" target="_blank" style="display: none"
+      >More Info</a
+    >
+    <button id="show-more-btn" style="display: none">Show more</button>
     <script src="script.js"></script>
   </body>
 </html>
