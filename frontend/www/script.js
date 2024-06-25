@@ -9,7 +9,7 @@ let keyword = "";
 let pageNumber = 1;
 
 // Replace with your actual API base URL
-const API_BASE_URL = "http://localhost:3000"; // Example base URL
+const API_BASE_URL = ""; 
 
 async function searchCourse() {
   keyword = searchBox.value.trim();
@@ -17,10 +17,10 @@ async function searchCourse() {
     alert("Please enter a keyword to search.");
     return;
   }
-
-  const url = `${API_BASE_URL}/query/?query=${encodeURIComponent(
+const url = `${API_BASE_URL}/query/?query=${encodeURIComponent(
     keyword
-  )}&pageNumber=${pageNumber}`;
+  
+  )};
 
   try {
     const response = await fetch(url);
