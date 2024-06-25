@@ -4,13 +4,12 @@ const searchResult = document.getElementById("search-result");
 const resultTableBody = document.querySelector("#result-table tbody");
 const showMoreBtn = document.getElementById("show-more-btn");
 const searchButton = document.getElementById("search-button");
-const moreInfoLink = document.getElementById("more-info-link");
 
 let keyword = "";
 let pageNumber = 1;
 
 // Replace with your actual API base URL
-const API_BASE_URL = ""; // Example base URL
+const API_BASE_URL = "http://localhost:3000"; // Example base URL
 
 async function searchCourse() {
   keyword = searchBox.value.trim();
@@ -21,7 +20,7 @@ async function searchCourse() {
 
   const url = `${API_BASE_URL}/query/?query=${encodeURIComponent(
     keyword
-  )}`;
+  )}&pageNumber=${pageNumber}`;
 
   try {
     const response = await fetch(url);
@@ -48,7 +47,7 @@ async function searchCourse() {
           course.learningObjectives || "Not specified";
 
         const matchRateCell = document.createElement("td");
-        matchRateCell.textContent = `${course.matchRate * 100}%`;
+        matchRateCell.textContent = `${Math.round(course.matchRate * 100)}%`;
 
         if (course.matchRate >= 0.8) {
           row.classList.add("green");
@@ -66,19 +65,14 @@ async function searchCourse() {
         resultTableBody.appendChild(row);
       });
 
-      // Show the result table, "Show More" button, and "More Info" link
+      // Show the result table and "Show More" button
       searchResult.style.display = "block";
       showMoreBtn.style.display = "block";
-      moreInfoLink.style.display = "block";
     } else {
-      // Hide the result table, "Show More" button, and "More Info" link if no results
+      // Hide the result table and "Show More" button if no results
       searchResult.style.display = "none";
       showMoreBtn.style.display = "none";
-      moreInfoLink.style.display = "none";
     }
-
-    // Update the "More Info" link
-    moreInfoLink.href = `/more-info?query=${encodeURIComponent(keyword)}`;
   } catch (error) {
     console.error("Error fetching data: ", error);
   }
