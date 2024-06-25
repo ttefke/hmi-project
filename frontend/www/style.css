@@ -99,19 +99,6 @@ form button:active {
   background-color: #f8d7da;
 }
 
-#more-info-link {
-  display: none;
-  color: #ff3929;
-  text-align: center;
-  text-decoration: none;
-  font-size: 18px;
-  margin: 20px auto;
-}
-
-#more-info-link:hover {
-  text-decoration: underline;
-}
-
 #show-more-btn {
   background: #ff3929;
   color: #fff;
