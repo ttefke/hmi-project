@@ -20,7 +20,7 @@ async function searchCourse() {
 const url = `${API_BASE_URL}/query/?query=${encodeURIComponent(
     keyword
   
-  )};
+  )}`;
 
   try {
     const response = await fetch(url);
