@@ -7,62 +7,6 @@ from sentence_transformers import util
 from db.db_select import *
 from .formatter import *
 
-def vectorise_text(ctx, json_payload):
-    """
-    This method returns the vector representation of a string for a given model
-    @param ctx: contexter
-    @param json_payload: string to vectorise
-    @return: json with componenys language_model, dimension, vector
-    """
-    logger = ctx["logger"]
-    llm_name = ctx["llm_name"]
-    embedder = ctx["st_object_model"]
-    device = ctx["torch_device"]
-
-    # Input validate language
-
-    if not "language" in json_payload:
-        return jsonify('{No language specified}')
-
-    lang = json_payload["language"]
-    
-    if not isinstance(lang, str):
-        return jsonify('{Language must be string}')   
-    
-    lang = lang.strip().lower()
-
-    # Input validate text to be vectorised (check if vectorise field exists and is either list type of string)
-    if not "vectorise" in json_payload:
-        return jsonify('{No text to be vectorised specified}')
-    
-    if not (isinstance(json_payload['vectorise'], list) or isinstance(json_payload['vectorise'], str)):
-        return jsonify('{Text to be vectorised must be list of strings or string}')
-    
-    logger.debug('GET /sbert_get_vector/{}'.format(json_payload))
-
-    match = {}
-    cnt = 0
-    for query in json_payload['vectorise']:
-        # Input validate text to be vectorised (check if each element of the list is string)
-        if not isinstance(query, str):
-            return jsonify('{Text to be vectorised must be list of strings or string}')
-        
-        query_embedding = embedder.encode(query, device=device, show_progress_bar=False)
-        dim = len(query_embedding)
-        vector = query_embedding.tolist()
-        match[cnt] = {
-            'llm': llm_name,
-            'dimension': dim,
-            'language': lang,
-            'text': query,
-            'vector': vector
-        }
-        cnt += 1
-        logger.debug('{0}'.format(match))
-
-    return match
-
-
 def read_learned_model():
     try:
         with open("data/models/gte-large_en.pkl", "rb") as fo:
@@ -119,7 +63,6 @@ def list_courses_freeform(ctx, json_payload):
 
     question_words = ["what", "when", "where", "which", "who", "why", "how"]
     if any(x in query.lower() for x in question_words):
-
         # Read and rank sentences. This might take a couple of seconds
         # if using the CPU as pytorch device.
         # because the ranking has to be calculated each time
@@ -151,6 +94,5 @@ def list_courses_freeform(ctx, json_payload):
         match = toDict(get_course_by_similarity(ctx, query, "learning_objectives", 0.8))
         match = toDict(get_course_by_similarity(ctx, query, "course_contents", 0.8), existingCourses=match)
         match = toDict(get_course_by_similarity(ctx, query, "course_titles", 0.85), existingCourses=match)
-
 
     return match

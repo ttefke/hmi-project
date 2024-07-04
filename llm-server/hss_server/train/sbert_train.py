@@ -52,7 +52,6 @@ def generate_sentences(db):
             for t in terms:
                 courses.append([index, title + " is a " + a + " course taught by " + instructor + " in the " + t])
                 courses.append([index, instructor + " offeres the " + a + " course " + title + " in the " + t])
-
     conn.close()
     return courses
 
