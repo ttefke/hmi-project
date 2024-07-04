@@ -20,7 +20,7 @@ def get_torch_devide():
 def generate_sentences(db):
     conn = sqlite3.connect(db)
     cursor = conn.cursor()
-    cursor.execute('SELECt ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS number, title, instructor, course_type, time FROM acs_modules')
+    cursor.execute('SELECT ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS number, title, instructor, course_type, time FROM acs_modules')
     records = cursor.fetchall()
     courses = []
     for row in records:

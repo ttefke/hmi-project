@@ -20,30 +20,6 @@ ctx = ctx.handler()
 logger = ctx["logger"]
 # --------------------------------------------------------------------------
 
-
-#@app.route('/vectorise/', methods=['POST'])
-#async def vectorise():
-#    """
-#    {
-#        "language": "en",
-#        "vectorise": [
-#            "Text A to vectorise",
-#            "Text B to vectorise",
-#            "Text C to vectorise"
-#        ]
-#    }
-#    @return: a JSON file with dimension, llm model, text to vectorise, and the numerical vector for eact text within
-#    the vectorise array
-#    """
-#    if request.is_json:
-#        data_json = await request.get_json()
-#        resp = vectorise_text(ctx, data_json)
-#    else:
-#        resp = jsonify('{Well formed JSON is requiered, please check request}')
-#        logger.debug('{}'.format(resp))
-#    return resp
-
-
 @app.route('/course_by_title/', methods=['POST'])
 async def course_by_title():
     if request.is_json:

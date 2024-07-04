@@ -1,4 +1,3 @@
-
 def toDict(newCourses, existingCourses={}):
     # Map course result to dictionary -> can easily be parsed as JSON
     result = {}
