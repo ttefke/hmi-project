@@ -104,5 +104,16 @@ async def course_by_contents():
         logger.debug('{}'.format(resp))
     return resp
 
+@app.route('/freeform/', methods=['POST'])
+async def freeform():
+    if request.is_json:
+        data_json = await request.get_json()
+        resp = list_courses_freeform(ctx, data_json)
+    else:
+        resp = jsonify('{Well formed JSON is required, please check request}')
+        logger.debug('{}'.format(resp))
+    return resp
+
+
 # do not use this in production, run the app as follows: $ hypercorn server:app
 app.run(host="0.0.0.0", debug=False, port=3000)

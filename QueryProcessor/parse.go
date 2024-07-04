@@ -109,7 +109,7 @@ func parse(query string) []QueryExpression {
 	return parsedQuery
 }
 
-func isValid(parsedQuery []QueryExpression) bool {
+func containsFacets(parsedQuery []QueryExpression) bool {
 	for _, facet := range parsedQuery {
 		if facet.facet == ERROR {
 			return false

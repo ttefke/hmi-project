@@ -2,6 +2,7 @@ import pickle
 
 import torch
 from sentence_transformers import SentenceTransformer
+from sentence_transformers import CrossEncoder
 from include.config import env_config
 from include.logger import initialize_logger
 
@@ -37,6 +38,9 @@ def handler():
     # prepare global data, we may move this to the contexter
     st_object_model = SentenceTransformer(llm_name, device=torch_device)  # model object based on LLM
     logger.debug('Loading global variables into contexter')
+
+    cross_encoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-12-v2", default_activation_function=torch.nn.Sigmoid())
+    context.update({"cross_encoder": cross_encoder})
 
     context.update({"location_log_folder": location_log_folder})
     context.update({"log_level": log_level})

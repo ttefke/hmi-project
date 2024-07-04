@@ -137,6 +137,20 @@ func handleTerm(term string) ([]CourseData, error) {
 	return handleRequest("/course_by_term/", requestedTermJson)
 }
 
+func handleFreeFormQuery(query string) ([]CourseData, error) {
+	request := FreeFormRequest{
+		Query: query,
+	}
+
+	requestJson, err := json.Marshal(request)
+	if err != nil {
+		log.Println("Could not encode request in JSON:", err)
+		return []CourseData{}, err
+	}
+
+	return handleRequest("/freeform/", requestJson)
+}
+
 func handleRequest(route string, jsonData []byte) ([]CourseData, error) {
 	request, err := http.NewRequest(http.MethodPost, backendUrl+route, bytes.NewBuffer(jsonData))
 	if err != nil {

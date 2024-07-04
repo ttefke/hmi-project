@@ -89,3 +89,7 @@ type VectoriseRequest struct {
 	AnyMatch   bool     `json:"any"`
 	ExactMatch bool     `json:"exact"`
 }
+
+type FreeFormRequest struct {
+	Query string `json:"query"`
+}

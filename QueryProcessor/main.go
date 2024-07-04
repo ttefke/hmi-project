@@ -24,8 +24,15 @@ func QueryHandler(w http.ResponseWriter, r *http.Request) {
 		statements := parse(query)
 
 		// Interpret and handle facets if present
-		if isValid(statements) {
+		if containsFacets(statements) {
 			courses, err := handleStatements(statements)
+			if err != nil {
+				log.Println("Error while processing query:", err)
+			}
+			coursesOverview = CourseOverview{Courses: courses}
+		} else {
+			// Interpret query as free-form query
+			courses, err := handleFreeFormQuery(query)
 			if err != nil {
 				log.Println("Error while processing query:", err)
 			}
