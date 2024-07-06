@@ -80,7 +80,6 @@ searchBox.addEventListener("input", showSuggestions);
 
 const searchResult = document.getElementById("search-result");
 const resultTableBody = document.querySelector("#result-table tbody");
-const showMoreBtn = document.getElementById("show-more-btn");
 const searchButton = document.getElementById("search-button");
 
 let keyword = "";
@@ -150,24 +149,9 @@ async function searchCourse() {
 
       // Show the result table and "Show More" button
       searchResult.style.display = "block";
-      showMoreBtn.style.display = "block";
     } else {
-      // No courses found
-      const noResultRow = resultTableBody.insertRow();
-      const noResultCell = noResultRow.insertCell();
-      noResultCell.textContent = "No results found";
-      noResultCell.colSpan = "4";
-
-      searchResult.style.display = "block";
-      showMoreBtn.style.display = "none";
-    }
-
-    // Check if there are more results to show
-    if (data.hasMore) {
-      pageNumber++;
-      showMoreBtn.style.display = "block";
-    } else {
-      showMoreBtn.style.display = "none";
+      // Hide the result table and "Show More" button if no results
+      searchResult.style.display = "none";
     }
   } catch (error) {
     console.error("Error fetching data: ", error);
@@ -180,6 +164,11 @@ searchButton.addEventListener("click", () => {
   searchCourse();
 });
 
-function showMore() {
-  searchCourse();
-}
+// Event listener for the search button click
+searchButton.addEventListener("mousedown", () => {
+  searchButton.style.backgroundColor = "#000"; // Change to black on click
+});
+
+searchButton.addEventListener("mouseup", () => {
+  searchButton.style.backgroundColor = "#ff3929"; // Change back to original color
+});
