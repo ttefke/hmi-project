@@ -4,6 +4,7 @@ import ctx
 from quart_cors import *
 from quart import Quart, request, jsonify
 from pyfiglet import Figlet
+from db.db_select import get_titles, get_instructors
 from matcher.sbert import *
 from matcher.query import *
 
@@ -90,6 +91,19 @@ async def freeform():
         logger.debug('{}'.format(resp))
     return resp
 
+@app.route('/get_course_titles', methods=['GET'])
+async def get_course_titles():
+    db = ctx["db_courses"]
+    return {
+        "data": get_titles(db, False)
+    }
+
+@app.route('/get_instructors', methods=['GET'])
+async def get_course_instructors():
+    db = ctx["db_courses"]
+    return {
+        "data": get_instructors(db)
+    }
 
 # do not use this in production, run the app as follows: $ hypercorn server:app
 app.run(host="0.0.0.0", debug=False, port=3000)

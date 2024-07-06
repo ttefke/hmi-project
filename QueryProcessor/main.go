@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -50,6 +51,34 @@ func QueryHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, string(decodedCourses))
 }
 
+func TitlesHandler(w http.ResponseWriter, r *http.Request) {
+	PassthroughHandler(w, "/get_course_titles")
+}
+func InstructorsHandler(w http.ResponseWriter, r *http.Request) {
+	PassthroughHandler(w, "/get_instructors")
+}
+
+func PassthroughHandler(w http.ResponseWriter, route string) {
+	request, err := http.NewRequest(http.MethodGet, backendUrl+route, nil)
+	if err != nil {
+		log.Println("Could not create backend request: ", err)
+	}
+
+	request.Header.Set("Content-Type", "application/json")
+
+	response, err := http.DefaultClient.Do(request)
+	if err != nil {
+		log.Println("Could not send backend request: ", err)
+	}
+
+	body, err := io.ReadAll(response.Body)
+	if err != nil {
+		log.Println("Could not read response to backend request: ", err)
+	}
+	defer response.Body.Close()
+	fmt.Fprint(w, string(body))
+}
+
 func main() {
 	envSet := false
 	backendUrl, envSet = os.LookupEnv("BACKEND_URL")
@@ -59,7 +88,9 @@ func main() {
 	}
 
 	r := mux.NewRouter()
-	r.HandleFunc("/", QueryHandler)
+	r.HandleFunc("/query", QueryHandler)
+	r.HandleFunc("/titles", TitlesHandler)
+	r.HandleFunc("/instructors", InstructorsHandler)
 
 	log.Println("Started Query Processor")
 

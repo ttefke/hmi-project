@@ -94,3 +94,11 @@ type VectoriseRequest struct {
 type FreeFormRequest struct {
 	Query string `json:"query"`
 }
+
+type TitlesData struct {
+	Titles []string `json:"data"`
+}
+
+type InstructorsData struct {
+	Instructors []string `json:"data"`
+}

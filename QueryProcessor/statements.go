@@ -121,6 +121,7 @@ func handleStatements(query []QueryExpression) ([]CourseData, error) {
 		len(andStatements) == 1 {
 		data, err := handleFacet(andStatements[0])
 		if err != nil {
+			log.Println("Could not handle first and facet:", err)
 			return []CourseData{}, err
 		}
 		return data, nil
@@ -130,6 +131,7 @@ func handleStatements(query []QueryExpression) ([]CourseData, error) {
 	for _, facet := range orStatements {
 		data, err := handleFacet(facet)
 		if err != nil {
+			log.Println("Could not handle or facet:", err)
 			return []CourseData{}, err
 		}
 		courses = or(courses, data)
@@ -141,12 +143,14 @@ func handleStatements(query []QueryExpression) ([]CourseData, error) {
 			// no previous statements -> get all data and run the NOT operation afterwards
 			data, err := handleFacet(QueryExpression{facet: INSTRUCTOR, operand: ""})
 			if err != nil {
+				log.Println("Could not handle not facet:", err)
 				return []CourseData{}, err
 			}
 			courses = append(courses, data...)
 		}
 		data, err := handleFacet(facet)
 		if err != nil {
+			log.Println("Could not handle not facet:", err)
 			return []CourseData{}, err
 		}
 		courses = not(courses, data)
@@ -158,12 +162,14 @@ func handleStatements(query []QueryExpression) ([]CourseData, error) {
 			// no previous statements -> get all data and run the AND operation afterwards
 			data, err := handleFacet(QueryExpression{facet: INSTRUCTOR, operand: ""})
 			if err != nil {
+				log.Println("Could not run fist and facet:", err)
 				return []CourseData{}, err
 			}
 			courses = append(courses, data...)
 		}
 		data, err := handleFacet(facet)
 		if err != nil {
+			log.Println("Could not run and facet:", err)
 			return []CourseData{}, err
 		}
 		courses = and(courses, data)

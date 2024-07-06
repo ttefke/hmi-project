@@ -204,13 +204,40 @@ def get_course_by_index(db_file, index):
     conn.close()
     return courses
 
-def get_titles(db_file):
+def get_titles(db_file, toLower=True):
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
-    cursor.execute('SELECT title from acs_modules;')
+    cursor.execute('SELECT title from acs_modules ORDER BY title;')
     records = cursor.fetchall()
     titles = []
     for row in records:
-        titles.append(row[0].lower())
+        if toLower:
+            titles.append(row[0].lower())
+        else:
+            titles.append(row[0])
     conn.close()
     return titles
+
+def get_instructors(db_file):
+    conn = sqlite3.connect(db_file)
+    cursor = conn.cursor()
+    cursor.execute('SELECT DISTINCT instructor from acs_modules ORDER BY instructor;')
+    records = cursor.fetchall()
+    instructors = []
+    for row in records:
+        instructor = row[0]
+        instructor = instructor.replace(".", "")
+        instructor = instructor.replace(",", "")
+        instructor = instructor.replace("PhD", "")
+        instructor = instructor.replace("Dr-Ing", "")
+        instructor = instructor.replace("Dr", "")
+        instructor = instructor.replace("Prof", "")
+
+        instructor = instructor.lower()
+        instructor = instructor.strip()
+        instructorNameParts = instructor.split(" ")
+        instructor = instructorNameParts[len(instructorNameParts) - 1]
+
+        instructors.append(instructor)
+    conn.close()
+    return instructors
