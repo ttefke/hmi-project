@@ -56,11 +56,11 @@ form button {
 }
 
 form button:hover {
-  background: #000; /* Change to black on hover */
+  background: #000;
 }
 
 form button:active {
-  background: #000; /* Change to black on click */
+  background: #000;
 }
 
 ::placeholder {
@@ -121,9 +121,9 @@ form button:active {
   padding: 0;
   border: 1px solid #ccc;
   border-top: none;
-  width: calc(100% - 2px); /* Match the width of the search container */
+  width: calc(100% - 2px);
   position: absolute;
-  top: 80px; /* Position under the search bar */
+  top: 80px;
   left: 1px;
   max-height: 150px;
   overflow-y: auto;
@@ -133,7 +133,7 @@ form button:active {
   box-sizing: border-box;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  display: none; /* Hide by default */
+  display: none;
 }
 
 #suggestions li {

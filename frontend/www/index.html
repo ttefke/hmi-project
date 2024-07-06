@@ -9,13 +9,15 @@
   <body>
     <h1>HMI Search Engine</h1>
     <div class="search-container">
-      <form id="search-form">
+      <form id="search-form" onsubmit="return false;">
         <input
           type="text"
           id="search-box"
           placeholder="Search anything here..."
+          oninput="showSuggestions()"
+          autocomplete="off"
         />
-        <button id="search-button">Search</button>
+        <button id="search-button" onclick="searchCourse()">Search</button>
       </form>
       <ul id="suggestions"></ul>
     </div>
@@ -32,7 +34,9 @@
         <tbody></tbody>
       </table>
     </div>
-    <button id="show-more-btn" style="display: none">Show more</button>
+    <button id="show-more-btn" style="display: none" onclick="showMore()">
+      Show more
+    </button>
     <script src="script.js"></script>
   </body>
 </html>

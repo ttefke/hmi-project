@@ -34,9 +34,95 @@ const suggestions = [
   "Media Production 1",
 ];
 
+const specificSuggestions = {
+  "instructor:englmeier intitle:": [
+    "Agile Software Development",
+    "Text Mining and Search",
+    "Human-Computer Interaction",
+  ],
+  "instructor:seichter intitle:": ["Computer Graphics 1 (Computergraphik 1)"],
+  "instructor:golz intitle:": [
+    "Computational Intelligence",
+    "Signals and Systems",
+  ],
+  "instructor:neuhardt intitle:": [
+    "Web Applications",
+    "Distributed Systems (Verteilte Systeme)",
+    "Software Quality (Softwarequalität)",
+  ],
+  "instructor:staudemeyer intitle:": [
+    "IT Security",
+    "IT-Security (adv. chapters)",
+  ],
+  "instructor:urban intitle:": ["eBusiness"],
+  "instructor:chantelau intitle:": [
+    "Image Processing 1",
+    "Image Processing 2",
+    "Media Production 1",
+  ],
+  "instructor:cebulla intitle:": [
+    "Semantic Technologies in Distributed Systems (Semantische Technologien in verteilten Systemen)",
+    "Distributed Systems Advanced Chapters (Vertiefung Verteilte Systeme)",
+    "Mobile Systems (Mobile Systeme)",
+  ],
+  "instructor:höller intitle:": [
+    "Prof. Dr.-Ing. Heinz-Peter Höller",
+    "Service-Oriented Networks",
+  ],
+  instructor: [
+    "Prof. Dr. Englmeier",
+    "Prof. Hartmut Seichter, PhD",
+    "Prof. Dr. Martin Golz",
+    "Prof. Dr. Erwin Neuhardt",
+    "Prof. Ralf C. Staudemeyer, Ph.D.",
+    "Prof. Dr. Thomas Urban",
+    "Prof. Dr. Klaus Chantelau",
+    "Prof. Dr. Michael Cebulla",
+    "Prof. Dr.-Ing. Heinz-Peter Höller",
+  ],
+};
+
 const searchForm = document.getElementById("search-form");
 const searchBox = document.getElementById("search-box");
 const suggestionsContainer = document.getElementById("suggestions");
+
+function showSuggestions() {
+  const input = searchBox.value.toLowerCase().trim();
+  suggestionsContainer.innerHTML = "";
+
+  if (input) {
+    let filteredSuggestions;
+
+    if (input in specificSuggestions) {
+      filteredSuggestions = specificSuggestions[input];
+    } else {
+      filteredSuggestions = suggestions.filter((suggestion) =>
+        suggestion.toLowerCase().includes(input)
+      );
+    }
+
+    if (filteredSuggestions.length > 0) {
+      suggestionsContainer.style.display = "block";
+    } else {
+      suggestionsContainer.style.display = "none";
+    }
+
+    filteredSuggestions.forEach((suggestion) => {
+      const suggestionItem = document.createElement("li");
+      suggestionItem.textContent = suggestion;
+      suggestionItem.addEventListener("click", () => {
+        searchBox.value = suggestion;
+        suggestionsContainer.style.display = "none";
+      });
+      suggestionsContainer.appendChild(suggestionItem);
+    });
+  } else {
+    suggestionsContainer.style.display = "none";
+  }
+}
+
+searchBox.addEventListener("input", showSuggestions);
+
 const searchResult = document.getElementById("search-result");
 const resultTableBody = document.querySelector("#result-table tbody");
 const showMoreBtn = document.getElementById("show-more-btn");
@@ -45,8 +131,7 @@ const searchButton = document.getElementById("search-button");
 let keyword = "";
 let pageNumber = 1;
 
-// Replace with your actual API base URL
-const API_BASE_URL = "";
+const API_BASE_URL = ""; // Replace with your actual API base URL
 
 async function searchCourse() {
   keyword = searchBox.value.trim();
@@ -62,7 +147,7 @@ async function searchCourse() {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    console.log(data); // Log the data for debugging
+    console.log(data);
 
     if (pageNumber === 1) resultTableBody.innerHTML = ""; // Clear previous results
 
@@ -143,34 +228,4 @@ searchButton.addEventListener("mousedown", () => {
 
 searchButton.addEventListener("mouseup", () => {
   searchButton.style.backgroundColor = "#ff3929"; // Change back to original color
-});
-
-// Event listener for the search box input
-searchBox.addEventListener("input", function () {
-  const input = this.value.toLowerCase();
-  suggestionsContainer.innerHTML = "";
-
-  if (input) {
-    const filteredSuggestions = suggestions.filter((suggestion) =>
-      suggestion.toLowerCase().includes(input)
-    );
-
-    if (filteredSuggestions.length > 0) {
-      suggestionsContainer.style.display = "block";
-    } else {
-      suggestionsContainer.style.display = "none";
-    }
-
-    filteredSuggestions.forEach((suggestion) => {
-      const suggestionItem = document.createElement("li");
-      suggestionItem.textContent = suggestion;
-      suggestionItem.addEventListener("click", function () {
-        searchBox.value = suggestion;
-        suggestionsContainer.style.display = "none";
-      });
-      suggestionsContainer.appendChild(suggestionItem);
-    });
-  } else {
-    suggestionsContainer.style.display = "none";
-  }
 });
