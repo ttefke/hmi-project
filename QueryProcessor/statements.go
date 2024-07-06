@@ -189,7 +189,12 @@ func and(a, b []CourseData) []CourseData {
 }
 
 func or(a, b []CourseData) []CourseData {
-	return append(a, b...)
+	for _, course := range b {
+		if !contains(course, a) {
+			a = append(a, course)
+		}
+	}
+	return a
 }
 
 func not(courses, coursesToRemove []CourseData) []CourseData {
