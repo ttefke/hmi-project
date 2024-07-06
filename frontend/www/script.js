@@ -8,11 +8,10 @@ const electiveSuggestions = [
 ]
 const termSuggestions = [
   "summer",
-  "winter",
-  "1",
-  "2",
-  "3"
+  "winter"
 ]
+const facets = ["intitle", "instructor", "learning", "content", "elective", "term"];
+let suggestions = [];
 
 async function fetchData() {
   try {
@@ -33,6 +32,12 @@ async function fetchData() {
     }
     const instructorData = await instructorResponse.json();
     instructorSuggestions = instructorData.data;
+
+    suggestions = suggestions.concat(titleSuggestions);
+    suggestions = suggestions.concat(instructorSuggestions);
+    suggestions = suggestions.concat(electiveSuggestions);
+    suggestions = suggestions.concat(termSuggestions);
+    suggestions = suggestions.concat(facets);
   } catch (error) {
     console.error("Error fetching data: ", error);
   }  
@@ -46,71 +51,30 @@ const suggestionsContainer = document.getElementById("suggestions");
 function showSuggestions() {
   var input = searchBox.value.toLowerCase().trim();
   suggestionsContainer.innerHTML = "";
-
-  const facets = ["intitle", "instructor", "elective", "term"];
   
-  if (input) {
-    const splitInput = input.split(/ |:/);
-    const lastInput = splitInput[splitInput.length -1];
+  const splitInput = input.split(/ |:|-|\*|\|/)
+  const lastInput = splitInput[splitInput.length -1];
 
-    let suggestions = [];
-
-    // last input is a facet handled here
-    if (splitInput.length >= 1) {
-      let isFacet = false;
-      let isSuffixed = false;
-      let facet = "";
-
-      // input is facet handled here, facet is suffexed with a colon
-      if ((splitInput.length > 1) && (lastInput.length == 0) && (facets.indexOf(splitInput[splitInput.length -2]) > -1)) {
-        isFacet = true;
-        isSuffixed = true;
-        facet = splitInput[splitInput.length -2];
-      // input is a facet handled here, facet is not suffixed with a colon
-      } else if ((lastInput.length > 0) && (facets.indexOf(lastInput) > -1)) {
-        isFacet = true;
-        facet = lastInput;
-      }
-
-      if (isFacet) {
-          switch (facet) {
-          case "intitle":
-            suggestions = titleSuggestions;
-            break;
-          case "instructor":
-            suggestions = instructorSuggestions;
-            break;
-          case "elective":
-            suggestions = electiveSuggestions;
-            break;
-          case "term":
-            suggestions = termSuggestions;
-            break;
-        }
-
-        if (suggestions.length > 0) {
-          suggestionsContainer.style.display = "block";
-          
-          suggestions.forEach((suggestion) => {
-            const suggestionItem = document.createElement("li");
-            suggestionItem.textContent = suggestion;
-            suggestionItem.addEventListener("click", () => {
-              if (isSuffixed) {
-                searchBox.value = input + suggestion;
-              } else {
-                searchBox.value = input + ":" + suggestion;
-              }
-              suggestionsContainer.style.display = "none";
-            });
-            suggestionsContainer.appendChild(suggestionItem);
+  if (lastInput.length > 2) {
+    let currentSuggestions = suggestions.filter((word) => word.toLowerCase().startsWith(lastInput.toLowerCase()));
+      if (currentSuggestions.length > 0) {
+        suggestionsContainer.style.display = "block";
+        
+        currentSuggestions.forEach((suggestion) => {
+          const suggestionItem = document.createElement("li");
+          suggestionItem.textContent = suggestion;
+          suggestionItem.addEventListener("click", () => {
+            let remainingInput = input.slice(0, - lastInput.length);
+            searchBox.value = remainingInput + suggestion;
+            suggestionsContainer.style.display = "none";
           });
-        } else {
-          suggestionsContainer.style.display = "none";
-        }
+          suggestionsContainer.appendChild(suggestionItem);
+        });
+      } else {
+        suggestionsContainer.style.display = "none";
       }
     }
   }
-}
 
 searchBox.addEventListener("input", showSuggestions);
 
