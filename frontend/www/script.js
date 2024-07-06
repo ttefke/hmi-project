@@ -80,6 +80,61 @@ const specificSuggestions = {
     "Prof. Dr. Michael Cebulla",
     "Prof. Dr.-Ing. Heinz-Peter Höller",
   ],
+  "intitle:": [
+    "Agile Software Development",
+    "Computer Graphics 1 (Computergraphik 1)",
+    "Computational Intelligence",
+    "Distributed Systems (Verteilte Systeme)",
+    "IT Security",
+    "Mobile Systems (Mobile Systeme)",
+    "Service-Oriented Networks",
+    "Signals and Systems",
+    "Web Applications",
+    "IT-Security (adv. chapters)",
+    "Distributed Systems Advanced Chapters (Vertiefung Verteilte Systeme)",
+    "Semantic Technologies in Distributed Systems (Semantische Technologien in verteilten Systemen)",
+    "Software Quality (Softwarequalität)",
+    "Text Mining and Search",
+    "eBusiness",
+    "Human-Computer Interaction",
+    "Image Processing 1",
+    "Image Processing 2",
+    "Media Production 1",
+  ],
+  "term:summer": [
+    "Media Production 1",
+    "eBusiness",
+    "Human-Computer Interaction",
+    "Computational Intelligence",
+    "Service-Oriented Networks",
+    "Mobile Systems (Mobile Systeme)",
+  ],
+  "term:winter": [
+    "Agile Software Development",
+    "Computer Graphics 1 (Computergraphik 1)",
+    "Distributed Systems (Verteilte Systeme)",
+    "IT Security",
+    "Signals and Systems",
+    "Web Applications",
+    "IT-Security (adv. chapters)",
+    "Distributed Systems Advanced Chapters (Vertiefung Verteilte Systeme)",
+    "Semantic Technologies in Distributed Systems (Semantische Technologien in verteilten Systemen)",
+    "Software Quality (Softwarequalität)",
+    "Text Mining and Search",
+    "Image Processing 1",
+    "Image Processing 2",
+  ],
+  elective: [
+    "Image Processing 1",
+    "Image Processing 2",
+    "Media Production 1",
+    "IT-Security (adv. chapters)",
+    "Semantic Technologies in Distributed Systems (Semantische Technologien in verteilten Systemen)",
+    "Software Quality (Softwarequalität)",
+    "Text Mining and Search",
+    "eBusiness",
+    "Human-Computer Interaction",
+  ],
 };
 
 const searchForm = document.getElementById("search-form");
@@ -199,33 +254,34 @@ async function searchCourse() {
       searchResult.style.display = "block";
       showMoreBtn.style.display = "block";
     } else {
-      // Hide the result table and "Show More" button if no results
-      searchResult.style.display = "none";
+      // No courses found
+      const noResultRow = resultTableBody.insertRow();
+      const noResultCell = noResultRow.insertCell();
+      noResultCell.textContent = "No results found";
+      noResultCell.colSpan = "4";
+
+      searchResult.style.display = "block";
+      showMoreBtn.style.display = "none";
+    }
+
+    // Check if there are more results to show
+    if (data.hasMore) {
+      pageNumber++;
+      showMoreBtn.style.display = "block";
+    } else {
       showMoreBtn.style.display = "none";
     }
   } catch (error) {
     console.error("Error fetching data: ", error);
+    alert("An error occurred while fetching data. Please try again later.");
   }
 }
 
-// Event listener for the search form submission
-searchForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  pageNumber = 1; // Reset page number for new search
+searchButton.addEventListener("click", () => {
+  pageNumber = 1; // Reset page number when performing new search
   searchCourse();
 });
 
-// Event listener for the "Show More" button
-showMoreBtn.addEventListener("click", () => {
-  pageNumber++;
+function showMore() {
   searchCourse();
-});
-
-// Event listener for the search button click
-searchButton.addEventListener("mousedown", () => {
-  searchButton.style.backgroundColor = "#000"; // Change to black on click
-});
-
-searchButton.addEventListener("mouseup", () => {
-  searchButton.style.backgroundColor = "#ff3929"; // Change back to original color
-});
+}
