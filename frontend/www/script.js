@@ -1,5 +1,42 @@
+const suggestions = [
+  "Agile Software Development",
+  "Prof. Dr. Englmeier",
+  "Computer Graphics 1 (Computergraphik 1)",
+  "Prof. Hartmut Seichter, PhD",
+  "Computational Intelligence",
+  "Prof. Dr. Martin Golz",
+  "Distributed Systems (Verteilte Systeme)",
+  "Prof. Dr. Erwin Neuhardt",
+  "Prof. Ralf C. Staudemeyer, Ph.D.",
+  "IT Security",
+  "Mobile Systems (Mobile Systeme)",
+  "Prof. Dr. Michael Cebulla",
+  "Service-Oriented Networks",
+  "Prof. Dr.-Ing. Heinz-Peter Höller",
+  "Signals and Systems",
+  "Prof. Dr. Martin Golz",
+  "Web Applications",
+  "Prof. Dr. Erwin Neuhardt",
+  "IT-Security (adv. chapters)",
+  "Distributed Systems Advanced Chapters (Vertiefung Verteilte Systeme)",
+  "Semantic Technologies in Distributed Systems (Semantische Technologien in verteilten Systemen)",
+  "Software Quality (Softwarequalität)",
+  "Prof. Dr. Erwin Neuhardt",
+  "Text Mining and Search",
+  "Prof. Dr. Englmeier",
+  "eBusiness",
+  "Prof. Dr. Thomas Urban",
+  "Human-Computer Interaction",
+  "Prof. Dr. Englmeier",
+  "Image Processing 1",
+  "Prof. Dr. Klaus Chantelau",
+  "Image Processing 2",
+  "Media Production 1",
+];
+
 const searchForm = document.getElementById("search-form");
 const searchBox = document.getElementById("search-box");
+const suggestionsContainer = document.getElementById("suggestions");
 const searchResult = document.getElementById("search-result");
 const resultTableBody = document.querySelector("#result-table tbody");
 const showMoreBtn = document.getElementById("show-more-btn");
@@ -9,7 +46,7 @@ let keyword = "";
 let pageNumber = 1;
 
 // Replace with your actual API base URL
-const API_BASE_URL = ""; 
+const API_BASE_URL = "";
 
 async function searchCourse() {
   keyword = searchBox.value.trim();
@@ -17,10 +54,7 @@ async function searchCourse() {
     alert("Please enter a keyword to search.");
     return;
   }
-const url = `${API_BASE_URL}/query/?query=${encodeURIComponent(
-    keyword
-  
-  )}`;
+  const url = `${API_BASE_URL}/query/?query=${encodeURIComponent(keyword)}`;
 
   try {
     const response = await fetch(url);
@@ -62,6 +96,17 @@ const url = `${API_BASE_URL}/query/?query=${encodeURIComponent(
         row.appendChild(objectivesCell);
         row.appendChild(matchRateCell);
 
+        // Add event listener to row for redirection
+        row.addEventListener("click", () => {
+          const pdfUrl = course.pdfUrl;
+          const pageNumber = course.pageNumber;
+          if (pdfUrl && pageNumber) {
+            window.location.href = `${pdfUrl}#page=${pageNumber}`;
+          } else if (pdfUrl) {
+            window.location.href = pdfUrl;
+          }
+        });
+
         resultTableBody.appendChild(row);
       });
 
@@ -98,4 +143,34 @@ searchButton.addEventListener("mousedown", () => {
 
 searchButton.addEventListener("mouseup", () => {
   searchButton.style.backgroundColor = "#ff3929"; // Change back to original color
+});
+
+// Event listener for the search box input
+searchBox.addEventListener("input", function () {
+  const input = this.value.toLowerCase();
+  suggestionsContainer.innerHTML = "";
+
+  if (input) {
+    const filteredSuggestions = suggestions.filter((suggestion) =>
+      suggestion.toLowerCase().includes(input)
+    );
+
+    if (filteredSuggestions.length > 0) {
+      suggestionsContainer.style.display = "block";
+    } else {
+      suggestionsContainer.style.display = "none";
+    }
+
+    filteredSuggestions.forEach((suggestion) => {
+      const suggestionItem = document.createElement("li");
+      suggestionItem.textContent = suggestion;
+      suggestionItem.addEventListener("click", function () {
+        searchBox.value = suggestion;
+        suggestionsContainer.style.display = "none";
+      });
+      suggestionsContainer.appendChild(suggestionItem);
+    });
+  } else {
+    suggestionsContainer.style.display = "none";
+  }
 });

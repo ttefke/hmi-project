@@ -8,14 +8,17 @@
   </head>
   <body>
     <h1>HMI Search Engine</h1>
-    <form id="search-form">
-      <input
-        type="text"
-        id="search-box"
-        placeholder="Search anything here..."
-      />
-      <button id="search-button">Search</button>
-    </form>
+    <div class="search-container">
+      <form id="search-form">
+        <input
+          type="text"
+          id="search-box"
+          placeholder="Search anything here..."
+        />
+        <button id="search-button">Search</button>
+      </form>
+      <ul id="suggestions"></ul>
+    </div>
     <div id="search-result" style="display: none">
       <table id="result-table">
         <thead>
