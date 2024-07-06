@@ -1,178 +1,114 @@
-const suggestions = [
-  "Agile Software Development",
-  "Prof. Dr. Englmeier",
-  "Computer Graphics 1 (Computergraphik 1)",
-  "Prof. Hartmut Seichter, PhD",
-  "Computational Intelligence",
-  "Prof. Dr. Martin Golz",
-  "Distributed Systems (Verteilte Systeme)",
-  "Prof. Dr. Erwin Neuhardt",
-  "Prof. Ralf C. Staudemeyer, Ph.D.",
-  "IT Security",
-  "Mobile Systems (Mobile Systeme)",
-  "Prof. Dr. Michael Cebulla",
-  "Service-Oriented Networks",
-  "Prof. Dr.-Ing. Heinz-Peter Höller",
-  "Signals and Systems",
-  "Prof. Dr. Martin Golz",
-  "Web Applications",
-  "Prof. Dr. Erwin Neuhardt",
-  "IT-Security (adv. chapters)",
-  "Distributed Systems Advanced Chapters (Vertiefung Verteilte Systeme)",
-  "Semantic Technologies in Distributed Systems (Semantische Technologien in verteilten Systemen)",
-  "Software Quality (Softwarequalität)",
-  "Prof. Dr. Erwin Neuhardt",
-  "Text Mining and Search",
-  "Prof. Dr. Englmeier",
-  "eBusiness",
-  "Prof. Dr. Thomas Urban",
-  "Human-Computer Interaction",
-  "Prof. Dr. Englmeier",
-  "Image Processing 1",
-  "Prof. Dr. Klaus Chantelau",
-  "Image Processing 2",
-  "Media Production 1",
-];
+const API_BASE_URL = "/query"; // Replace with your actual API base URL
 
-const specificSuggestions = {
-  "instructor:englmeier intitle:": [
-    "Agile Software Development",
-    "Text Mining and Search",
-    "Human-Computer Interaction",
-  ],
-  "instructor:seichter intitle:": ["Computer Graphics 1 (Computergraphik 1)"],
-  "instructor:golz intitle:": [
-    "Computational Intelligence",
-    "Signals and Systems",
-  ],
-  "instructor:neuhardt intitle:": [
-    "Web Applications",
-    "Distributed Systems (Verteilte Systeme)",
-    "Software Quality (Softwarequalität)",
-  ],
-  "instructor:staudemeyer intitle:": [
-    "IT Security",
-    "IT-Security (adv. chapters)",
-  ],
-  "instructor:urban intitle:": ["eBusiness"],
-  "instructor:chantelau intitle:": [
-    "Image Processing 1",
-    "Image Processing 2",
-    "Media Production 1",
-  ],
-  "instructor:cebulla intitle:": [
-    "Semantic Technologies in Distributed Systems (Semantische Technologien in verteilten Systemen)",
-    "Distributed Systems Advanced Chapters (Vertiefung Verteilte Systeme)",
-    "Mobile Systems (Mobile Systeme)",
-  ],
-  "instructor:höller intitle:": [
-    "Prof. Dr.-Ing. Heinz-Peter Höller",
-    "Service-Oriented Networks",
-  ],
-  instructor: [
-    "Prof. Dr. Englmeier",
-    "Prof. Hartmut Seichter, PhD",
-    "Prof. Dr. Martin Golz",
-    "Prof. Dr. Erwin Neuhardt",
-    "Prof. Ralf C. Staudemeyer, Ph.D.",
-    "Prof. Dr. Thomas Urban",
-    "Prof. Dr. Klaus Chantelau",
-    "Prof. Dr. Michael Cebulla",
-    "Prof. Dr.-Ing. Heinz-Peter Höller",
-  ],
-  "intitle:": [
-    "Agile Software Development",
-    "Computer Graphics 1 (Computergraphik 1)",
-    "Computational Intelligence",
-    "Distributed Systems (Verteilte Systeme)",
-    "IT Security",
-    "Mobile Systems (Mobile Systeme)",
-    "Service-Oriented Networks",
-    "Signals and Systems",
-    "Web Applications",
-    "IT-Security (adv. chapters)",
-    "Distributed Systems Advanced Chapters (Vertiefung Verteilte Systeme)",
-    "Semantic Technologies in Distributed Systems (Semantische Technologien in verteilten Systemen)",
-    "Software Quality (Softwarequalität)",
-    "Text Mining and Search",
-    "eBusiness",
-    "Human-Computer Interaction",
-    "Image Processing 1",
-    "Image Processing 2",
-    "Media Production 1",
-  ],
-  "term:summer": [
-    "Media Production 1",
-    "eBusiness",
-    "Human-Computer Interaction",
-    "Computational Intelligence",
-    "Service-Oriented Networks",
-    "Mobile Systems (Mobile Systeme)",
-  ],
-  "term:winter": [
-    "Agile Software Development",
-    "Computer Graphics 1 (Computergraphik 1)",
-    "Distributed Systems (Verteilte Systeme)",
-    "IT Security",
-    "Signals and Systems",
-    "Web Applications",
-    "IT-Security (adv. chapters)",
-    "Distributed Systems Advanced Chapters (Vertiefung Verteilte Systeme)",
-    "Semantic Technologies in Distributed Systems (Semantische Technologien in verteilten Systemen)",
-    "Software Quality (Softwarequalität)",
-    "Text Mining and Search",
-    "Image Processing 1",
-    "Image Processing 2",
-  ],
-  elective: [
-    "Image Processing 1",
-    "Image Processing 2",
-    "Media Production 1",
-    "IT-Security (adv. chapters)",
-    "Semantic Technologies in Distributed Systems (Semantische Technologien in verteilten Systemen)",
-    "Software Quality (Softwarequalität)",
-    "Text Mining and Search",
-    "eBusiness",
-    "Human-Computer Interaction",
-  ],
-};
+let titleSuggestions = []
+let instructorSuggestions = []
+const electiveSuggestions = [
+  "true",
+  "false"
+]
+const termSuggestions = [
+  "summer",
+  "winter",
+  "1",
+  "2",
+  "3"
+]
+
+async function fetchData() {
+  try {
+    // fetch lecture titles
+    const titleSuggestionUrl = `${API_BASE_URL}/titles`;  
+    const titleResponse = await fetch(titleSuggestionUrl);
+    if (!titleResponse.ok) {
+      throw new Error(`HTTP error! status: ${titleResponse.status}`);
+    }
+    const titleData = await titleResponse.json();
+    titleSuggestions = titleData.data;
+
+    // fetch instructors
+    const instructorSuggestionsUrl = `${API_BASE_URL}/instructors`;  
+    const instructorResponse = await fetch(instructorSuggestionsUrl);
+    if (!instructorResponse.ok) {
+      throw new Error(`HTTP error! status: ${instructorResponse.status}`);
+    }
+    const instructorData = await instructorResponse.json();
+    instructorSuggestions = instructorData.data;
+  } catch (error) {
+    console.error("Error fetching data: ", error);
+  }  
+}
+fetchData();
 
 const searchForm = document.getElementById("search-form");
 const searchBox = document.getElementById("search-box");
 const suggestionsContainer = document.getElementById("suggestions");
 
 function showSuggestions() {
-  const input = searchBox.value.toLowerCase().trim();
+  var input = searchBox.value.toLowerCase().trim();
   suggestionsContainer.innerHTML = "";
 
+  const facets = ["intitle", "instructor", "elective", "term"];
+  
   if (input) {
-    let filteredSuggestions;
+    const splitInput = input.split(/ |:/);
+    const lastInput = splitInput[splitInput.length -1];
 
-    if (input in specificSuggestions) {
-      filteredSuggestions = specificSuggestions[input];
-    } else {
-      filteredSuggestions = suggestions.filter((suggestion) =>
-        suggestion.toLowerCase().includes(input)
-      );
+    let suggestions = [];
+
+    // last input is a facet handled here
+    if (splitInput.length >= 1) {
+      let isFacet = false;
+      let isSuffixed = false;
+      let facet = "";
+
+      // input is facet handled here, facet is suffexed with a colon
+      if ((splitInput.length > 1) && (lastInput.length == 0) && (facets.indexOf(splitInput[splitInput.length -2]) > -1)) {
+        isFacet = true;
+        isSuffixed = true;
+        facet = splitInput[splitInput.length -2];
+      // input is a facet handled here, facet is not suffixed with a colon
+      } else if ((lastInput.length > 0) && (facets.indexOf(lastInput) > -1)) {
+        isFacet = true;
+        facet = lastInput;
+      }
+
+      if (isFacet) {
+          switch (facet) {
+          case "intitle":
+            suggestions = titleSuggestions;
+            break;
+          case "instructor":
+            suggestions = instructorSuggestions;
+            break;
+          case "elective":
+            suggestions = electiveSuggestions;
+            break;
+          case "term":
+            suggestions = termSuggestions;
+            break;
+        }
+
+        if (suggestions.length > 0) {
+          suggestionsContainer.style.display = "block";
+          
+          suggestions.forEach((suggestion) => {
+            const suggestionItem = document.createElement("li");
+            suggestionItem.textContent = suggestion;
+            suggestionItem.addEventListener("click", () => {
+              if (isSuffixed) {
+                searchBox.value = input + suggestion;
+              } else {
+                searchBox.value = input + ":" + suggestion;
+              }
+              suggestionsContainer.style.display = "none";
+            });
+            suggestionsContainer.appendChild(suggestionItem);
+          });
+        } else {
+          suggestionsContainer.style.display = "none";
+        }
+      }
     }
-
-    if (filteredSuggestions.length > 0) {
-      suggestionsContainer.style.display = "block";
-    } else {
-      suggestionsContainer.style.display = "none";
-    }
-
-    filteredSuggestions.forEach((suggestion) => {
-      const suggestionItem = document.createElement("li");
-      suggestionItem.textContent = suggestion;
-      suggestionItem.addEventListener("click", () => {
-        searchBox.value = suggestion;
-        suggestionsContainer.style.display = "none";
-      });
-      suggestionsContainer.appendChild(suggestionItem);
-    });
-  } else {
-    suggestionsContainer.style.display = "none";
   }
 }
 
@@ -184,17 +120,15 @@ const showMoreBtn = document.getElementById("show-more-btn");
 const searchButton = document.getElementById("search-button");
 
 let keyword = "";
-let pageNumber = 1;
-
-const API_BASE_URL = ""; // Replace with your actual API base URL
+let pageNumber = 1
 
 async function searchCourse() {
   keyword = searchBox.value.trim();
   if (!keyword) {
-    alert("Please enter a keyword to search.");
+    alert("Please enter a query to search.");
     return;
   }
-  const url = `${API_BASE_URL}/query/?query=${encodeURIComponent(keyword)}`;
+  const url = `${API_BASE_URL}/query?query=${keyword}`;
 
   try {
     const response = await fetch(url);
