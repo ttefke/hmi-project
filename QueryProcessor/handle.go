@@ -179,5 +179,9 @@ func handleRequest(route string, jsonData []byte) ([]CourseData, error) {
 		return []CourseData{}, errors.New("could not decode backend response")
 	}
 
+	for i := range overview.Courses {
+		overview.Courses[i].PDFUrl = "/static/module_manual_IMACS.pdf"
+	}
+
 	return overview.Courses, nil
 }

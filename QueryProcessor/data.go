@@ -7,6 +7,7 @@ type CourseOverview struct {
 type CourseData struct {
 	MatchRate          float64 `json:"matchRate"`
 	PageNumber         int     `json:"pageNumber"`
+	PDFUrl             string  `json:"pdfUrl"`
 	Title              string  `json:"title"`
 	Instructor         string  `json:"instructor"`
 	LearningObjectives string  `json:"learningObjectives"`
