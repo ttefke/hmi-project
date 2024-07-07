@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HMI Search Engine</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>HMI Search Engine</h1>
+    <div class="search-container">
+      <form id="search-form" onsubmit="return false;">
+        <input
+          type="text"
+          id="search-box"
+          placeholder="Search anything here..."
+          oninput="showSuggestions()"
+          autocomplete="off"
+          autofocus
+        />
+        <button id="search-button" onclick="searchCourse()">Search</button>
+      </form>
+      <ul id="suggestions"></ul>
+    </div>
+    <div id="search-result" style="display: none">
+      <table id="result-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Instructor</th>
+            <th>Learning Objectives</th>
+            <th>Match Rate</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div
+      id="no-results"
+      style="display: none; color: red; text-align: center; margin-top: 20px"
+    >
+      No course or instructor found
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
