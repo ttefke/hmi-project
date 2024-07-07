@@ -9,7 +9,7 @@ Dependencies:
 Create vectorised data/sentences (done, only required to recreate data):
 
 1. Create virtual python env
-2. Install `llm/hss_server/requirements.txt
+2. Install `llm/hss_server/requirements.txt`
 3. Run `sbert_train.py` in `train`
 
 Extract data from PDF
