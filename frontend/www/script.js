@@ -71,6 +71,7 @@ function showSuggestions() {
               searchBox.value = remainingInput + "\"" + suggestion + "\"";
             }
             suggestionsContainer.style.display = "none";
+            searchBox.focus();
           });
           suggestionsContainer.appendChild(suggestionItem);
         });
