@@ -139,16 +139,19 @@ async function searchCourse() {
         row.appendChild(matchRateCell);
 
         // Add event listener to row for redirection
-        row.addEventListener("click", () => {
-          const pdfUrl = course.pdfUrl;
-          const pageNumber = course.pageNumber;
-          let url = pdfUrl;
-          if (pdfUrl && pageNumber) {
-            url = `${pdfUrl}#page=${pageNumber}`;
-          }
-          window.open(url, '_blank');
-        });
-
+        const pdfUrl = course.pdfUrl;
+        if (pdfUrl) {
+          row.setAttribute("onMouseOver", "this.style.cursor='pointer'");
+          row.addEventListener("click", () => {
+            const pageNumber = course.pageNumber;
+            let url = pdfUrl;
+            if (pdfUrl && pageNumber) {
+              url = `${pdfUrl}#page=${pageNumber}`;
+            }
+            window.open(url, '_blank');
+          });
+        }    
+        
         resultTableBody.appendChild(row);
       });
 
