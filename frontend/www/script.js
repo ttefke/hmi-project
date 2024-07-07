@@ -89,13 +89,7 @@ searchBox.addEventListener("input", showSuggestions);
 const searchResult = document.getElementById("search-result");
 const resultTableBody = document.querySelector("#result-table tbody");
 const searchButton = document.getElementById("search-button");
-const noResultsDiv = document.createElement("div"); // Create no results message element
-noResultsDiv.id = "noResults";
-noResultsDiv.style.color = "red";
-noResultsDiv.style.marginTop = "20px";
-noResultsDiv.style.display = "none";
-noResultsDiv.textContent = "No course or instructor found";
-searchResult.parentElement.insertBefore(noResultsDiv, searchResult); // Insert it before the search result div
+const noResultsDiv = document.getElementById("no-results");
 
 let keyword = "";
 let pageNumber = 1;
