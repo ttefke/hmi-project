@@ -1,22 +1,23 @@
 const API_BASE_URL = "/query"; // Replace with your actual API base URL
 
-let titleSuggestions = []
-let instructorSuggestions = []
-const electiveSuggestions = [
-  "true",
-  "false"
-]
-const termSuggestions = [
-  "summer",
-  "winter"
-]
-const facets = ["intitle", "instructor", "learning", "content", "elective", "term"];
+let titleSuggestions = [];
+let instructorSuggestions = [];
+const electiveSuggestions = ["true", "false"];
+const termSuggestions = ["summer", "winter"];
+const facets = [
+  "intitle",
+  "instructor",
+  "learning",
+  "content",
+  "elective",
+  "term",
+];
 let suggestions = [];
 
 async function fetchData() {
   try {
     // fetch lecture titles
-    const titleSuggestionUrl = `${API_BASE_URL}/titles`;  
+    const titleSuggestionUrl = `${API_BASE_URL}/titles`;
     const titleResponse = await fetch(titleSuggestionUrl);
     if (!titleResponse.ok) {
       throw new Error(`HTTP error! status: ${titleResponse.status}`);
@@ -25,7 +26,7 @@ async function fetchData() {
     titleSuggestions = titleData.data;
 
     // fetch instructors
-    const instructorSuggestionsUrl = `${API_BASE_URL}/instructors`;  
+    const instructorSuggestionsUrl = `${API_BASE_URL}/instructors`;
     const instructorResponse = await fetch(instructorSuggestionsUrl);
     if (!instructorResponse.ok) {
       throw new Error(`HTTP error! status: ${instructorResponse.status}`);
@@ -40,7 +41,7 @@ async function fetchData() {
     suggestions = suggestions.concat(facets);
   } catch (error) {
     console.error("Error fetching data: ", error);
-  }  
+  }
 }
 fetchData();
 
@@ -51,44 +52,53 @@ const suggestionsContainer = document.getElementById("suggestions");
 function showSuggestions() {
   var input = searchBox.value.toLowerCase().trim();
   suggestionsContainer.innerHTML = "";
-  
-  const splitInput = input.split(/ |:|-|\*|\|/)
-  const lastInput = splitInput[splitInput.length -1];
+
+  const splitInput = input.split(/ |:|-|\*|\|/);
+  const lastInput = splitInput[splitInput.length - 1];
 
   if (lastInput.length > 2) {
-    let currentSuggestions = suggestions.filter((word) => word.toLowerCase().startsWith(lastInput.toLowerCase()));
-      if (currentSuggestions.length > 0) {
-        suggestionsContainer.style.display = "block";
-        
-        currentSuggestions.forEach((suggestion) => {
-          const suggestionItem = document.createElement("li");
-          suggestionItem.textContent = suggestion;
-          suggestionItem.addEventListener("click", () => {
-            let remainingInput = input.slice(0, - lastInput.length);
-            if (facets.includes(suggestion)) {
-              searchBox.value = remainingInput + suggestion + ":";
-            } else {
-              searchBox.value = remainingInput + "\"" + suggestion + "\"";
-            }
-            suggestionsContainer.style.display = "none";
-            searchBox.focus();
-          });
-          suggestionsContainer.appendChild(suggestionItem);
+    let currentSuggestions = suggestions.filter((word) =>
+      word.toLowerCase().startsWith(lastInput.toLowerCase())
+    );
+    if (currentSuggestions.length > 0) {
+      suggestionsContainer.style.display = "block";
+
+      currentSuggestions.forEach((suggestion) => {
+        const suggestionItem = document.createElement("li");
+        suggestionItem.textContent = suggestion;
+        suggestionItem.addEventListener("click", () => {
+          let remainingInput = input.slice(0, -lastInput.length);
+          if (facets.includes(suggestion)) {
+            searchBox.value = remainingInput + suggestion + ":";
+          } else {
+            searchBox.value = remainingInput + '"' + suggestion + '"';
+          }
+          suggestionsContainer.style.display = "none";
+          searchBox.focus();
         });
-      } else {
-        suggestionsContainer.style.display = "none";
-      }
+        suggestionsContainer.appendChild(suggestionItem);
+      });
+    } else {
+      suggestionsContainer.style.display = "none";
     }
   }
+}
 
 searchBox.addEventListener("input", showSuggestions);
 
 const searchResult = document.getElementById("search-result");
 const resultTableBody = document.querySelector("#result-table tbody");
 const searchButton = document.getElementById("search-button");
+const noResultsDiv = document.createElement("div"); // Create no results message element
+noResultsDiv.id = "noResults";
+noResultsDiv.style.color = "red";
+noResultsDiv.style.marginTop = "20px";
+noResultsDiv.style.display = "none";
+noResultsDiv.textContent = "No course or instructor found";
+searchResult.parentElement.insertBefore(noResultsDiv, searchResult); // Insert it before the search result div
 
 let keyword = "";
-let pageNumber = 1
+let pageNumber = 1;
 
 async function searchCourse() {
   keyword = searchBox.value.trim();
@@ -109,6 +119,8 @@ async function searchCourse() {
     if (pageNumber === 1) resultTableBody.innerHTML = ""; // Clear previous results
 
     if (data.courses && data.courses.length > 0) {
+      noResultsDiv.style.display = "none"; // Hide no results message if there are results
+
       data.courses.forEach((course) => {
         const row = document.createElement("tr");
 
@@ -148,18 +160,19 @@ async function searchCourse() {
             if (pdfUrl && pageNumber) {
               url = `${pdfUrl}#page=${pageNumber}`;
             }
-            window.open(url, '_blank');
+            window.open(url, "_blank");
           });
-        }    
-        
+        }
+
         resultTableBody.appendChild(row);
       });
 
-      // Show the result table and "Show More" button
+      // Show the result table
       searchResult.style.display = "block";
     } else {
-      // Hide the result table and "Show More" button if no results
+      // Hide the result table if no results
       searchResult.style.display = "none";
+      noResultsDiv.style.display = "block"; // Show no results message
     }
   } catch (error) {
     console.error("Error fetching data: ", error);
