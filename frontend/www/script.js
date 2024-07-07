@@ -65,7 +65,11 @@ function showSuggestions() {
           suggestionItem.textContent = suggestion;
           suggestionItem.addEventListener("click", () => {
             let remainingInput = input.slice(0, - lastInput.length);
-            searchBox.value = remainingInput + suggestion;
+            if (facets.includes(suggestion)) {
+              searchBox.value = remainingInput + suggestion + ":";
+            } else {
+              searchBox.value = remainingInput + "\"" + suggestion + "\"";
+            }
             suggestionsContainer.style.display = "none";
           });
           suggestionsContainer.appendChild(suggestionItem);
