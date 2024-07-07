@@ -142,11 +142,11 @@ async function searchCourse() {
         row.addEventListener("click", () => {
           const pdfUrl = course.pdfUrl;
           const pageNumber = course.pageNumber;
+          let url = pdfUrl;
           if (pdfUrl && pageNumber) {
-            window.location.href = `${pdfUrl}#page=${pageNumber}`;
-          } else if (pdfUrl) {
-            window.location.href = pdfUrl;
+            url = `${pdfUrl}#page=${pageNumber}`;
           }
+          window.open(url, '_blank');
         });
 
         resultTableBody.appendChild(row);
