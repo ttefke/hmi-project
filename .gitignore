@@ -23,3 +23,4 @@ QueryProcessor/QueryProcessor
 !llm-server/hss_server/docs/readme/README.pdf
 !frontend/www/static/module_manual_IMACS.pdf
 !PDFExtract/src/main/resources/org/hsm/hmi/module_manual_IMACS.pdf
+!documentation/*.pdf

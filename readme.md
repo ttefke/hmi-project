@@ -28,3 +28,6 @@ Running the application
 Open a command line and type in:
 
 `docker compose -f composer.yml`
+
+
+More detailed documentation can be found in the documentation subdirectory.
